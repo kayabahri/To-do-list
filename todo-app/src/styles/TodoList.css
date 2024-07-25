@@ -1,0 +1,26 @@
+.todo-list {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.todo-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.todo-list li button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
