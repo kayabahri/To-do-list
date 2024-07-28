@@ -22,13 +22,13 @@ const Category = ({ category, onRemove }) => {
     <div className="category">
       <h2>
         {category.name}
-        <button className="remove-category" onClick={onRemove}>Remove Category</button>
+        <button className="remove-category" onClick={onRemove}>Kategoriyi Kaldır</button>
       </h2>
       <div className="task-list">
         {category.tasks.map((task) => (
           <div key={task.id} className="task-item">
             {task.text}
-            <button onClick={() => handleRemoveTask(task.id)}>Remove</button>
+            <button onClick={() => handleRemoveTask(task.id)}>Kaldır</button>
           </div>
         ))}
       </div>
@@ -37,9 +37,9 @@ const Category = ({ category, onRemove }) => {
           type="text" 
           value={task} 
           onChange={(e) => setTask(e.target.value)} 
-          placeholder="Add a new task" 
+          placeholder="Yeni bir görev ekle" 
         />
-        <button onClick={handleAddTask}>Add Task</button>
+        <button onClick={handleAddTask}>Görev Ekle</button>
       </div>
     </div>
   );

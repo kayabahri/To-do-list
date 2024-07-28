@@ -1,0 +1,29 @@
+/* src/styles/LanguageSelector.css */
+.language-selector {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .language-dropdown {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1003;
+    width: 150px;
+  }
+  
+  .language-dropdown div {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .language-dropdown div:hover {
+    background-color: #f0f0f0;
+  }
+  

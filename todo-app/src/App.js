@@ -1,12 +1,13 @@
+// src/App.js
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import About from './components/About';
 import Settings from './components/Settings';
-import CategoryInput from './components/CategoryInput';
-import CategoryList from './components/CategoryList';
+import Home from './components/Home'; // Ana sayfa bileşenini ekleyin
 import { ThemeContext } from './contexts/ThemeContext';
 import './styles/App.css';
+import './i18n'; // i18n yapılandırmasını import ediyoruz
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
@@ -17,10 +18,7 @@ const App = () => {
         <Header />
         <main>
           <Routes>
-            <Route path="/" element={<>
-              <CategoryInput />
-              <CategoryList />
-            </>} />
+            <Route path="/" element={<Home />} /> {/* Ana sayfa rotası */}
             <Route path="/about" element={<About />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>

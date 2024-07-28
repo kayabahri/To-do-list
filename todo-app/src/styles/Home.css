@@ -1,0 +1,26 @@
+/* src/styles/Home.css */
+.todo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    width: 100%;
+  }
+  
+  .todo-box {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 500px;
+    height: 150px;
+  }
+  
+  .todo-title {
+    margin-bottom: 10px;
+  }
+  

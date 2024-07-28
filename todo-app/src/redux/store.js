@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import todoReducer from './todoSlice';
 import categoryReducer from './categorySlice';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
-    todos: todoReducer,
     categories: categoryReducer,
   },
 });
 
-export default store; // Varsayılan export eklendi
+export default store;

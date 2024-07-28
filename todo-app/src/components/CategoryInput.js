@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addCategory } from '../redux/categorySlice';
-import '../styles/CategoryInput.css';
 
 const CategoryInput = () => {
-  const [category, setCategory] = useState('');
+  const [categoryName, setCategoryName] = useState('');
   const dispatch = useDispatch();
 
   const handleAddCategory = () => {
-    if (category.trim()) {
-      dispatch(addCategory(category));
-      setCategory('');
+    if (categoryName.trim()) {
+      dispatch(addCategory(categoryName));
+      setCategoryName('');
     }
   };
 
   return (
-    <div className="category-input">
-      <input 
-        type="text" 
-        value={category} 
-        onChange={(e) => setCategory(e.target.value)} 
-        placeholder="Add a new category" 
+    <div>
+      <input
+        type="text"
+        value={categoryName}
+        onChange={(e) => setCategoryName(e.target.value)}
+        placeholder="Yeni bir kategori ekle"
       />
-      <button onClick={handleAddCategory}>Add Category</button>
+      <button onClick={handleAddCategory}>Kategori Ekle</button>
     </div>
   );
 };

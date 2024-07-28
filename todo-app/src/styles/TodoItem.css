@@ -5,14 +5,14 @@
   padding: 8px;
   margin-bottom: 8px;
   border-radius: 4px;
-  background-color: var(--item-background); /* Arka plan rengi temaya göre ayarlanacak */
-  color: var(--text); /* Metin rengi temaya göre ayarlanacak */
+  background-color: var(--item-background);
+  color: var(--text);
   transition: background-color 0.3s, color 0.3s;
 }
 
 .todo-item button {
   background: none;
   border: none;
-  color: inherit; /* Buton rengini metin renginden alır */
+  color: inherit; 
   cursor: pointer;
 }

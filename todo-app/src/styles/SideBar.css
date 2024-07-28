@@ -1,3 +1,5 @@
+/* src/components/Sidebar.css */
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -37,9 +39,8 @@
   align-items: center;
 }
 
-
 .sidebar li:hover {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar.light {
@@ -47,7 +48,15 @@
   color: #333;
 }
 
+.sidebar.light li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .sidebar.dark {
   background-color: #333;
   color: #fff;
+}
+
+.sidebar.dark li:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
