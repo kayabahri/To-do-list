@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import store from './redux/store'; // Varsayılan olarak içe aktarma
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
+import { store, persistor } from './redux/store';
 import './styles/index.css';
 import { ThemeProvider } from './contexts/ThemeContext';
 
@@ -10,8 +11,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <PersistGate loading={null} persistor={persistor}>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </PersistGate>
   </Provider>
 );

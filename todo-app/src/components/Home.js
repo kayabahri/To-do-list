@@ -1,18 +1,11 @@
-// src/components/Home.js
 import React from 'react';
-import CategoryInput from './CategoryInput';
 import CategoryList from './CategoryList';
-import { useTranslation } from 'react-i18next';
+import '../styles/Home.css';
 
 const Home = () => {
-  const { t } = useTranslation();
-
   return (
-    <div className="todo-container">
-      <div className="todo-box">
-        <h1 className="todo-title">{t('Yapılacaklar Listesi')}</h1>
-        <CategoryInput />
-      </div>
+    <div className="home">
+      {/* "Yapılacaklar Listesi" başlığını ve butonları kaldırıyoruz */}
       <CategoryList />
     </div>
   );

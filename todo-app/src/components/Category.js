@@ -1,46 +1,121 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTask, removeTask } from '../redux/categorySlice';
+import TaskOptions from './TaskOptions';
 import '../styles/Category.css';
 
 const Category = ({ category, onRemove }) => {
   const [task, setTask] = useState('');
+  const [showInput, setShowInput] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [optionsPosition, setOptionsPosition] = useState({ top: 0, left: 0 });
   const dispatch = useDispatch();
+  const iconRef = useRef(null);
 
   const handleAddTask = () => {
     if (task.trim()) {
-      dispatch(addTask({ categoryId: category.id, task }));
+      dispatch(addTask(category.id, task));
       setTask('');
+      setShowInput(false);
     }
   };
 
   const handleRemoveTask = (taskId) => {
-    dispatch(removeTask({ categoryId: category.id, taskId }));
+    dispatch(removeTask(category.id, taskId));
+  };
+
+  const handleBlur = () => {
+    handleAddTask();
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleAddTask();
+    }
+  };
+
+  const handleIconClick = (taskId) => {
+    setSelectedTaskId(taskId);
+    setShowOptions(true);
+    const iconRect = iconRef.current.getBoundingClientRect();
+    setOptionsPosition({
+      top: iconRect.top,
+      left: iconRect.right
+    });
+  };
+
+  const handleOptionSelect = (option) => {
+    switch (option) {
+      case 'edit':
+        // Edit task logic here
+        break;
+      case 'move':
+        // Move task logic here
+        break;
+      case 'delete':
+        handleRemoveTask(selectedTaskId);
+        break;
+      case 'archive':
+        // Archive task logic here
+        break;
+      default:
+        break;
+    }
+    setShowOptions(false);
+  };
+
+  const handleCloseOptions = () => {
+    setShowOptions(false);
   };
 
   return (
-    <div className="category">
-      <h2>
-        {category.name}
-        <button className="remove-category" onClick={onRemove}>Kategoriyi Kaldır</button>
-      </h2>
-      <div className="task-list">
+    <div className="category-card">
+      <div className="category-header">
+        <h2 className="category-title">{category.name}</h2>
+        {onRemove && (
+          <button className="remove-category" onClick={onRemove}>
+            Kaldır
+          </button>
+        )}
+      </div>
+      <ul className="task-list">
         {category.tasks.map((task) => (
-          <div key={task.id} className="task-item">
+          <li key={task.id} className="task-item">
             {task.text}
-            <button onClick={() => handleRemoveTask(task.id)}>Kaldır</button>
-          </div>
+            <span
+              className="edit-task-icon"
+              onClick={() => handleIconClick(task.id)}
+              ref={iconRef}
+            >
+              <i className="fas fa-pencil-alt"></i>
+            </span>
+            {showOptions && selectedTaskId === task.id && (
+              <TaskOptions
+                onSelectOption={handleOptionSelect}
+                onClose={handleCloseOptions}
+                position={optionsPosition}
+              />
+            )}
+          </li>
         ))}
-      </div>
-      <div className="task-input">
-        <input 
-          type="text" 
-          value={task} 
-          onChange={(e) => setTask(e.target.value)} 
-          placeholder="Yeni bir görev ekle" 
-        />
-        <button onClick={handleAddTask}>Görev Ekle</button>
-      </div>
+      </ul>
+      {showInput ? (
+        <div className="task-input">
+          <input
+            type="text"
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
+            onBlur={handleBlur}
+            onKeyPress={handleKeyPress}
+            placeholder="Yeni bir görev ekle"
+          />
+        </div>
+      ) : (
+        <div className="add-task-link" onClick={() => setShowInput(true)}>
+          + Kart ekle
+        </div>
+      )}
     </div>
   );
 };
