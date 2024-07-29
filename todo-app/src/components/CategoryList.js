@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addCategory, removeCategory } from '../redux/categorySlice';
+import { addCategory, removeCategory, updateCategory } from '../redux/categorySlice';
 import Category from './Category';
 import '../styles/CategoryList.css';
 
@@ -9,6 +9,7 @@ const CategoryList = () => {
   const dispatch = useDispatch();
   const [showInput, setShowInput] = useState(false);
   const [categoryName, setCategoryName] = useState('');
+  const [editingCategory, setEditingCategory] = useState(null);
 
   const handleAddCategory = () => {
     if (categoryName.trim()) {
@@ -33,6 +34,18 @@ const CategoryList = () => {
     dispatch(removeCategory(categoryId));
   };
 
+  const handleCategoryBlur = (categoryId, e) => {
+    dispatch(updateCategory({ categoryId, updatedName: e.target.value }));
+    setEditingCategory(null);
+  };
+
+  const handleCategoryKeyPress = (categoryId, e) => {
+    if (e.key === 'Enter') {
+      dispatch(updateCategory({ categoryId, updatedName: e.target.value }));
+      setEditingCategory(null);
+    }
+  };
+
   return (
     <div className="category-list-container">
       <div className="category-list">
@@ -41,6 +54,10 @@ const CategoryList = () => {
             key={category.id}
             category={category}
             onRemove={() => handleRemoveCategory(category.id)}
+            onEdit={() => setEditingCategory(category.id)}
+            editing={editingCategory === category.id}
+            onCategoryBlur={(e) => handleCategoryBlur(category.id, e)}
+            onCategoryKeyPress={(e) => handleCategoryKeyPress(category.id, e)}
           />
         ))}
         {showInput ? (

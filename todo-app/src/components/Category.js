@@ -4,7 +4,7 @@ import { addTask, removeTask } from '../redux/categorySlice';
 import TaskOptions from './TaskOptions';
 import '../styles/Category.css';
 
-const Category = ({ category, onRemove }) => {
+const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCategoryKeyPress }) => {
   const [task, setTask] = useState('');
   const [showInput, setShowInput] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -15,14 +15,14 @@ const Category = ({ category, onRemove }) => {
 
   const handleAddTask = () => {
     if (task.trim()) {
-      dispatch(addTask(category.id, task));
+      dispatch(addTask({ categoryId: category.id, taskText: task }));
       setTask('');
       setShowInput(false);
     }
   };
 
   const handleRemoveTask = (taskId) => {
-    dispatch(removeTask(category.id, taskId));
+    dispatch(removeTask({ categoryId: category.id, taskId }));
   };
 
   const handleBlur = () => {
@@ -72,7 +72,17 @@ const Category = ({ category, onRemove }) => {
   return (
     <div className="category-card">
       <div className="category-header">
-        <h2 className="category-title">{category.name}</h2>
+        {editing ? (
+          <input
+            type="text"
+            defaultValue={category.name}
+            onBlur={onCategoryBlur}
+            onKeyPress={onCategoryKeyPress}
+            autoFocus
+          />
+        ) : (
+          <h2 className="category-title" onClick={onEdit}>{category.name}</h2>
+        )}
         {onRemove && (
           <button className="remove-category" onClick={onRemove}>
             Kaldır

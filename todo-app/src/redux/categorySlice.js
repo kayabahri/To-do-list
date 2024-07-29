@@ -8,61 +8,70 @@ const categorySlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    addCategorySuccess: (state, action) => {
-      const newCategory = {
-        id: Date.now(),
+    addCategory: (state, action) => {
+      state.categories.push({
+        id: Date.now().toString(),
         name: action.payload,
         tasks: []
-      };
-      state.categories.push(newCategory);
+      });
     },
-    removeCategorySuccess: (state, action) => {
+    removeCategory: (state, action) => {
       state.categories = state.categories.filter(
         (category) => category.id !== action.payload
       );
     },
-    addTaskSuccess: (state, action) => {
-      const { categoryId, task } = action.payload;
-      const category = state.categories.find((cat) => cat.id === categoryId);
+    addTask: (state, action) => {
+      const { categoryId, taskText } = action.payload;
+      const category = state.categories.find(
+        (category) => category.id === categoryId
+      );
       if (category) {
-        const newTask = {
-          id: Date.now(),
-          text: task
-        };
-        category.tasks.push(newTask);
+        category.tasks.push({
+          id: Date.now().toString(),
+          text: taskText
+        });
       }
     },
-    removeTaskSuccess: (state, action) => {
+    removeTask: (state, action) => {
       const { categoryId, taskId } = action.payload;
-      const category = state.categories.find((cat) => cat.id === categoryId);
+      const category = state.categories.find(
+        (category) => category.id === categoryId
+      );
       if (category) {
         category.tasks = category.tasks.filter((task) => task.id !== taskId);
+      }
+    },
+    updateTask: (state, action) => {
+      const { categoryId, taskId, updatedText } = action.payload;
+      const category = state.categories.find(
+        (category) => category.id === categoryId
+      );
+      if (category) {
+        const task = category.tasks.find((task) => task.id === taskId);
+        if (task) {
+          task.text = updatedText;
+        }
+      }
+    },
+    updateCategory: (state, action) => {
+      const { categoryId, updatedName } = action.payload;
+      const category = state.categories.find(
+        (category) => category.id === categoryId
+      );
+      if (category) {
+        category.name = updatedName;
       }
     }
   }
 });
 
 export const {
-  addCategorySuccess,
-  removeCategorySuccess,
-  addTaskSuccess,
-  removeTaskSuccess
+  addCategory,
+  removeCategory,
+  addTask,
+  removeTask,
+  updateTask,
+  updateCategory
 } = categorySlice.actions;
-
-export const addCategory = (name) => (dispatch) => {
-  dispatch(addCategorySuccess(name));
-};
-
-export const removeCategory = (categoryId) => (dispatch) => {
-  dispatch(removeCategorySuccess(categoryId));
-};
-
-export const addTask = (categoryId, task) => (dispatch) => {
-  dispatch(addTaskSuccess({ categoryId, task }));
-};
-
-export const removeTask = (categoryId, taskId) => (dispatch) => {
-  dispatch(removeTaskSuccess({ categoryId, taskId }));
-};
 
 export default categorySlice.reducer;
