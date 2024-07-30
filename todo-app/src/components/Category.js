@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { addTask, removeTask, updateTask, updateCategory } from '../redux/categorySlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTask, removeTask, updateTask, updateCategory, setTaskDates, moveTask } from '../redux/categorySlice';
 import TaskOptions from './TaskOptions';
 import '../styles/Category.css';
 
@@ -16,6 +16,8 @@ const Category = ({ category, onRemove }) => {
   const [categoryName, setCategoryName] = useState(category.name);
   const dispatch = useDispatch();
   const iconRef = useRef(null);
+
+  const lists = useSelector((state) => state.categories);
 
   const handleAddTask = () => {
     if (task.trim()) {
@@ -49,7 +51,7 @@ const Category = ({ category, onRemove }) => {
     });
   };
 
-  const handleOptionSelect = (option) => {
+  const handleOptionSelect = (option, data) => {
     switch (option) {
       case 'edit':
         setEditingTaskId(selectedTaskId);
@@ -57,7 +59,8 @@ const Category = ({ category, onRemove }) => {
         setShowOptions(false);
         break;
       case 'move':
-        // Move task logic here
+        dispatch(moveTask({ fromCategoryId: category.id, taskId: selectedTaskId, toCategoryId: data.listId, position: data.position }));
+        setShowOptions(false);
         break;
       case 'delete':
         handleRemoveTask(selectedTaskId);
@@ -65,6 +68,11 @@ const Category = ({ category, onRemove }) => {
         break;
       case 'archive':
         // Archive task logic here
+        break;
+      case 'setDate':
+        const { start, end } = data;
+        dispatch(setTaskDates({ categoryId: category.id, taskId: selectedTaskId, startDate: start, endDate: end }));
+        setShowOptions(false);
         break;
       default:
         break;
@@ -135,33 +143,43 @@ const Category = ({ category, onRemove }) => {
       <ul className="task-list">
         {category.tasks.map((task) => (
           <li key={task.id} className="task-item">
-            {editingTaskId === task.id ? (
-              <input
-                type="text"
-                value={editingTaskText}
-                onChange={(e) => setEditingTaskText(e.target.value)}
-                onBlur={handleTaskEditBlur}
-                onKeyPress={handleTaskEditKeyPress}
-                autoFocus
-                className="task-input-field"
-              />
-            ) : (
-              <>
-                <span className="task-text">{task.text}</span>
-                <span
-                  className="edit-task-icon"
-                  onClick={() => handleIconClick(task.id)}
-                  ref={iconRef}
-                >
-                  <i className="fas fa-pencil-alt"></i>
-                </span>
-              </>
-            )}
+            <div className="task-text-wrapper">
+              {editingTaskId === task.id ? (
+                <input
+                  type="text"
+                  value={editingTaskText}
+                  onChange={(e) => setEditingTaskText(e.target.value)}
+                  onBlur={handleTaskEditBlur}
+                  onKeyPress={handleTaskEditKeyPress}
+                  autoFocus
+                  className="task-input-field"
+                />
+              ) : (
+                <>
+                  <span className="task-text">{task.text}</span>
+                  <span
+                    className="edit-task-icon"
+                    onClick={() => handleIconClick(task.id)}
+                    ref={iconRef}
+                  >
+                    <i className="fas fa-pencil-alt"></i>
+                  </span>
+                </>
+              )}
+            </div>
+            <span className="task-dates">
+              {task.startDate && task.endDate && (
+                <>
+                  <i className="fas fa-clock"></i> {new Date(task.startDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })} - {new Date(task.endDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })}
+                </>
+              )}
+            </span>
             {showOptions && selectedTaskId === task.id && (
               <TaskOptions
                 onSelectOption={handleOptionSelect}
                 onClose={handleCloseOptions}
                 position={optionsPosition}
+                lists={lists}
               />
             )}
           </li>
