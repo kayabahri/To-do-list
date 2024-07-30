@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addCategory, removeCategory, updateCategory } from '../redux/categorySlice';
+import { fetchCategories, addCategory, removeCategory, updateCategory } from '../redux/categorySlice';
 import Category from './Category';
 import '../styles/CategoryList.css';
 
@@ -9,7 +9,12 @@ const CategoryList = () => {
   const dispatch = useDispatch();
   const [showInput, setShowInput] = useState(false);
   const [categoryName, setCategoryName] = useState('');
-  const [editingCategory, setEditingCategory] = useState(null);
+  const [editingCategoryId, setEditingCategoryId] = useState(null);
+  const [editingCategoryName, setEditingCategoryName] = useState('');
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   const handleAddCategory = () => {
     if (categoryName.trim()) {
@@ -34,16 +39,27 @@ const CategoryList = () => {
     dispatch(removeCategory(categoryId));
   };
 
-  const handleCategoryBlur = (categoryId, e) => {
-    dispatch(updateCategory({ categoryId, updatedName: e.target.value }));
-    setEditingCategory(null);
+  const handleEditCategory = (categoryId, categoryName) => {
+    setEditingCategoryId(categoryId);
+    setEditingCategoryName(categoryName);
   };
 
-  const handleCategoryKeyPress = (categoryId, e) => {
-    if (e.key === 'Enter') {
-      dispatch(updateCategory({ categoryId, updatedName: e.target.value }));
-      setEditingCategory(null);
+  const handleUpdateCategory = () => {
+    if (editingCategoryName.trim()) {
+      dispatch(updateCategory({ categoryId: editingCategoryId, newName: editingCategoryName }));
+      setEditingCategoryId(null);
+      setEditingCategoryName('');
     }
+  };
+
+  const handleCategoryKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleUpdateCategory();
+    }
+  };
+
+  const handleCategoryBlur = () => {
+    handleUpdateCategory();
   };
 
   return (
@@ -54,10 +70,12 @@ const CategoryList = () => {
             key={category.id}
             category={category}
             onRemove={() => handleRemoveCategory(category.id)}
-            onEdit={() => setEditingCategory(category.id)}
-            editing={editingCategory === category.id}
-            onCategoryBlur={(e) => handleCategoryBlur(category.id, e)}
-            onCategoryKeyPress={(e) => handleCategoryKeyPress(category.id, e)}
+            onEdit={() => handleEditCategory(category.id, category.name)}
+            editing={editingCategoryId === category.id}
+            onCategoryBlur={handleCategoryBlur}
+            onCategoryKeyPress={handleCategoryKeyPress}
+            onChange={(e) => setEditingCategoryName(e.target.value)}
+            editingCategoryName={editingCategoryName}
           />
         ))}
         {showInput ? (

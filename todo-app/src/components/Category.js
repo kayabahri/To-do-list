@@ -1,15 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTask, removeTask } from '../redux/categorySlice';
+import { addTask, removeTask, updateTask } from '../redux/categorySlice';
 import TaskOptions from './TaskOptions';
 import '../styles/Category.css';
 
-const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCategoryKeyPress }) => {
+const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCategoryKeyPress, onChange, editingCategoryName }) => {
   const [task, setTask] = useState('');
   const [showInput, setShowInput] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [optionsPosition, setOptionsPosition] = useState({ top: 0, left: 0 });
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editingTaskText, setEditingTaskText] = useState('');
   const dispatch = useDispatch();
   const iconRef = useRef(null);
 
@@ -25,11 +27,11 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
     dispatch(removeTask({ categoryId: category.id, taskId }));
   };
 
-  const handleBlur = () => {
+  const handleTaskBlur = () => {
     handleAddTask();
   };
 
-  const handleKeyPress = (e) => {
+  const handleTaskKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleAddTask();
     }
@@ -48,13 +50,16 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
   const handleOptionSelect = (option) => {
     switch (option) {
       case 'edit':
-        // Edit task logic here
+        setEditingTaskId(selectedTaskId);
+        setEditingTaskText(category.tasks.find(task => task.id === selectedTaskId).text);
+        setShowOptions(false);
         break;
       case 'move':
         // Move task logic here
         break;
       case 'delete':
         handleRemoveTask(selectedTaskId);
+        setShowOptions(false);
         break;
       case 'archive':
         // Archive task logic here
@@ -62,11 +67,28 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
       default:
         break;
     }
-    setShowOptions(false);
   };
 
   const handleCloseOptions = () => {
     setShowOptions(false);
+  };
+
+  const handleUpdateTask = () => {
+    if (editingTaskText.trim()) {
+      dispatch(updateTask({ categoryId: category.id, taskId: editingTaskId, updatedText: editingTaskText }));
+      setEditingTaskId(null);
+      setEditingTaskText('');
+    }
+  };
+
+  const handleTaskEditKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleUpdateTask();
+    }
+  };
+
+  const handleTaskEditBlur = () => {
+    handleUpdateTask();
   };
 
   return (
@@ -75,7 +97,8 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
         {editing ? (
           <input
             type="text"
-            defaultValue={category.name}
+            value={editingCategoryName}
+            onChange={onChange}
             onBlur={onCategoryBlur}
             onKeyPress={onCategoryKeyPress}
             autoFocus
@@ -92,14 +115,27 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
       <ul className="task-list">
         {category.tasks.map((task) => (
           <li key={task.id} className="task-item">
-            {task.text}
-            <span
-              className="edit-task-icon"
-              onClick={() => handleIconClick(task.id)}
-              ref={iconRef}
-            >
-              <i className="fas fa-pencil-alt"></i>
-            </span>
+            {editingTaskId === task.id ? (
+              <input
+                type="text"
+                value={editingTaskText}
+                onChange={(e) => setEditingTaskText(e.target.value)}
+                onBlur={handleTaskEditBlur}
+                onKeyPress={handleTaskEditKeyPress}
+                autoFocus
+              />
+            ) : (
+              <>
+                {task.text}
+                <span
+                  className="edit-task-icon"
+                  onClick={() => handleIconClick(task.id)}
+                  ref={iconRef}
+                >
+                  <i className="fas fa-pencil-alt"></i>
+                </span>
+              </>
+            )}
             {showOptions && selectedTaskId === task.id && (
               <TaskOptions
                 onSelectOption={handleOptionSelect}
@@ -116,8 +152,8 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
             type="text"
             value={task}
             onChange={(e) => setTask(e.target.value)}
-            onBlur={handleBlur}
-            onKeyPress={handleKeyPress}
+            onBlur={handleTaskBlur}
+            onKeyPress={handleTaskKeyPress}
             placeholder="Yeni bir görev ekle"
           />
         </div>

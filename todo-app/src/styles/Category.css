@@ -1,82 +1,106 @@
-/* src/styles/Category.css */
 .category-card {
-  background-color: white;
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin: 16px;
   padding: 16px;
-  margin-bottom: 16px;
-  width: 250px;
-  text-align: left; /* Left align text */
+  width: 300px; /* Sabit genişlik */
+  height: auto;
+  display: inline-block;
+  vertical-align: top;
+  overflow-wrap: break-word; /* Metnin taşmasını sağlar */
 }
 
 .category-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
 }
 
 .category-title {
   font-size: 18px;
   font-weight: bold;
   margin: 0;
-  word-break: break-all; /* Word break */
+  cursor: pointer;
+  word-wrap: break-word; /* Metnin kutu içinde taşır */
+  text-align: left;
+  width: calc(100% - 50px); /* Kaldır butonu için yer bırak */
 }
 
 .remove-category {
-  background-color: #ff6961;
-  color: white;
+  background: none;
   border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
+  color: #d9534f;
   cursor: pointer;
+  font-size: 16px;
 }
 
 .task-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .task-item {
-  background-color: #f4f5f7;
-  border-radius: 4px;
+  position: relative;
   padding: 8px;
   margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  word-break: break-all; /* Word break */
-  text-align: left; /* Left align text */
-}
-
-.task-input {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.task-input input {
-  padding: 8px;
-  border: 1px solid #dcdcdc;
+  background-color: #f9f9f9;
   border-radius: 4px;
-  text-align: left; /* Left align text */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  word-wrap: break-word; /* Metnin kutu içinde taşır */
+  text-align: left;
+  overflow-wrap: break-word; /* Metnin taşmasını sağlar */
+  width: 100%; /* Sabit genişlik */
 }
 
-.add-task-link {
-  color: #0079bf;
-  cursor: pointer;
-  margin-top: 8px;
-  text-align: left; /* Left align text */
+.task-item:hover .edit-task-icon {
+  visibility: visible;
 }
 
 .edit-task-icon {
-  margin-left: 8px;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
+  visibility: hidden;
+}
+
+.task-input {
+  margin-top: 16px;
+}
+
+.task-input input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-task-link {
+  margin-top: 16px;
+  padding: 8px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-align: center;
+  color: #007bff;
 }
 
 .add-category {
-  display: flex;
-  flex-direction: column;
+  margin-top: 16px;
+}
+
+.add-category input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .add-category-actions {
@@ -93,13 +117,11 @@
 }
 
 .add-category-actions .cancel-button {
-  background-color: #f4f5f7;
-  color: #333;
+  background-color: #d9534f;
+  color: #fff;
 }
 
-.add-category-link {
-  color: #0079bf;
-  cursor: pointer;
-  margin-top: 8px;
-  text-align: left; /* Left align text */
+.add-category-actions button:not(.cancel-button) {
+  background-color: #5cb85c;
+  color: #fff;
 }
