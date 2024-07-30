@@ -1,4 +1,3 @@
-// src/components/LanguageSelector.js
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaGlobe } from 'react-icons/fa';

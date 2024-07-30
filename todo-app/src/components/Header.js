@@ -1,11 +1,10 @@
-// src/components/Header.js
 import React, { useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './SideBar';
 import { ThemeContext } from '../contexts/ThemeContext';
-import LanguageSelector from './LanguageSelector'; // LanguageSelector bileşenini import edin
+import LanguageSelector from './LanguageSelector';
 import '../styles/Header.css';
 
 const Header = () => {

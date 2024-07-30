@@ -4,11 +4,11 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   margin: 16px;
   padding: 16px;
-  width: 300px; /* Sabit genişlik */
+  width: 300px; 
   height: auto;
   display: inline-block;
   vertical-align: top;
-  overflow-wrap: break-word; /* Metnin taşmasını sağlar */
+  overflow-wrap: break-word;
 }
 
 .category-header {
@@ -22,9 +22,10 @@
   font-weight: bold;
   margin: 0;
   cursor: pointer;
-  word-wrap: break-word; /* Metnin kutu içinde taşır */
+  word-wrap: break-word;
   text-align: left;
-  width: calc(100% - 50px); /* Kaldır butonu için yer bırak */
+  width: calc(100% - 50px);
+  white-space: normal;
 }
 
 .remove-category {
@@ -51,10 +52,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  word-wrap: break-word; /* Metnin kutu içinde taşır */
+  word-wrap: break-word;
   text-align: left;
-  overflow-wrap: break-word; /* Metnin taşmasını sağlar */
-  width: 100%; /* Sabit genişlik */
+  overflow-wrap: break-word;
+  width: 100%;
+}
+
+.task-item span.task-text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  flex: 1;
 }
 
 .task-item:hover .edit-task-icon {

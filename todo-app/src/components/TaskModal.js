@@ -1,5 +1,3 @@
-// src/components/TaskModal.js
-
 import React from 'react';
 import '../styles/TaskModal.css';
 

@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTask, removeTask, updateTask } from '../redux/categorySlice';
+import { addTask, removeTask, updateTask, updateCategory } from '../redux/categorySlice';
 import TaskOptions from './TaskOptions';
 import '../styles/Category.css';
 
-const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCategoryKeyPress, onChange, editingCategoryName }) => {
+const Category = ({ category, onRemove }) => {
   const [task, setTask] = useState('');
   const [showInput, setShowInput] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -12,6 +12,8 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
   const [optionsPosition, setOptionsPosition] = useState({ top: 0, left: 0 });
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editingTaskText, setEditingTaskText] = useState('');
+  const [editingCategory, setEditingCategory] = useState(false);
+  const [categoryName, setCategoryName] = useState(category.name);
   const dispatch = useDispatch();
   const iconRef = useRef(null);
 
@@ -91,20 +93,38 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
     handleUpdateTask();
   };
 
+  const handleEditCategory = () => {
+    setEditingCategory(true);
+  };
+
+  const handleCategoryBlur = () => {
+    if (categoryName.trim() && categoryName !== category.name) {
+      dispatch(updateCategory({ categoryId: category.id, newName: categoryName }));
+    }
+    setEditingCategory(false);
+  };
+
+  const handleCategoryKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleCategoryBlur();
+    }
+  };
+
   return (
     <div className="category-card">
       <div className="category-header">
-        {editing ? (
+        {editingCategory ? (
           <input
             type="text"
-            value={editingCategoryName}
-            onChange={onChange}
-            onBlur={onCategoryBlur}
-            onKeyPress={onCategoryKeyPress}
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+            onBlur={handleCategoryBlur}
+            onKeyPress={handleCategoryKeyPress}
             autoFocus
+            className="category-title-input"
           />
         ) : (
-          <h2 className="category-title" onClick={onEdit}>{category.name}</h2>
+          <h2 className="category-title" onClick={handleEditCategory}>{category.name}</h2>
         )}
         {onRemove && (
           <button className="remove-category" onClick={onRemove}>
@@ -123,10 +143,11 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
                 onBlur={handleTaskEditBlur}
                 onKeyPress={handleTaskEditKeyPress}
                 autoFocus
+                className="task-input-field"
               />
             ) : (
               <>
-                {task.text}
+                <span className="task-text">{task.text}</span>
                 <span
                   className="edit-task-icon"
                   onClick={() => handleIconClick(task.id)}
@@ -155,6 +176,7 @@ const Category = ({ category, onRemove, onEdit, editing, onCategoryBlur, onCateg
             onBlur={handleTaskBlur}
             onKeyPress={handleTaskKeyPress}
             placeholder="Yeni bir görev ekle"
+            className="task-input-field"
           />
         </div>
       ) : (

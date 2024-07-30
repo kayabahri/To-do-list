@@ -25,7 +25,7 @@ header {
   align-items: center;
   flex-direction: column;
   margin-bottom: 20px;
-  padding-top: 20px; /* Yeni boşluk ekleyin */
+  padding-top: 20px;
 }
 
 header h1 {
@@ -49,19 +49,19 @@ main {
   flex-direction: column;
   align-items: center;
   margin-top: 50px;
-  width: 100%; /* Eklendi */
+  width: 100%;
 }
 
 .todo-box {
-  background: rgba(255, 255, 255, 0.8); /* Saydam beyaz arka plan */
+  background: rgba(255, 255, 255, 0.8);
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%; /* Box'ın genişliği */
-  max-width: 500px; /* Box'ın maksimum genişliği */
+  width: 80%;
+  max-width: 500px;
   height: 150px;
 }
 
@@ -73,7 +73,7 @@ main {
   display: flex;
   justify-content: center;
   overflow-x: auto;
-  padding: 10px 0; /* Üst ve alt boşlukları azaltın */
+  padding: 10px 0;
 }
 
 .category-wrapper::-webkit-scrollbar {

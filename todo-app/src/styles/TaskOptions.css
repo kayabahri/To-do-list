@@ -1,4 +1,3 @@
-/* src/styles/TaskOptions.css */
 body.overlay-open {
     overflow: hidden;
   }
@@ -20,8 +19,8 @@ body.overlay-open {
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 4px; /* Aralarındaki boşluk */
-    position: absolute; /* Absolute konumlandırma */
+    gap: 4px;
+    position: absolute;
   }
   
   .task-option {

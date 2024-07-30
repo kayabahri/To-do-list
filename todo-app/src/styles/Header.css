@@ -1,11 +1,10 @@
-/* src/styles/Header.css */
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between; /* Aralarındaki alanı yay */
+  justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
   z-index: 999;
@@ -44,7 +43,7 @@
   color: inherit;
   transition: transform 0.3s ease;
   position: relative;
-  margin-right: 40px; /* Sağdan biraz içeri al */
+  margin-right: 40px;
 }
 
 .left-icon.sidebar-open {

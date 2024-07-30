@@ -21,6 +21,9 @@ const TaskOptions = ({ onSelectOption, onClose, position }) => {
           <i className="fas fa-external-link-alt"></i> Kartı Aç
         </div>
         <div className="task-option" onClick={() => onSelectOption('edit')}>
+          <i className="fas fa-edit"></i> Düzenle
+        </div>
+        <div className="task-option" onClick={() => onSelectOption('dates')}>
           <i className="fas fa-calendar-alt"></i> Tarihleri düzenle
         </div>
         <div className="task-option" onClick={() => onSelectOption('move')}>

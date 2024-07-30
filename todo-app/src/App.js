@@ -8,7 +8,7 @@ import Settings from './components/Settings';
 import Home from './components/Home';
 import { ThemeContext } from './contexts/ThemeContext';
 import './styles/App.css';
-import './i18n'; // i18n yapılandırmasını import ediyoruz
+import './i18n';
 import { store, persistor } from './redux/store';
 
 const App = () => {

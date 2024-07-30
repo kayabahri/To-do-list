@@ -7,7 +7,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: var(--text);
     position: relative;
-    min-height: 15vh; /* Tam ekran yapmak için min-height eklenir */
+    min-height: 15vh;
   }
   
   body.light .about-page::before {
