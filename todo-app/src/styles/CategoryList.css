@@ -2,14 +2,15 @@
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .category-list {
   display: flex;
   flex-wrap: nowrap;
-  overflow-x: auto;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.5);
+  background: none;
   border-radius: 8px;
   margin: 16px auto;
   max-width: 1200px;
@@ -27,6 +28,16 @@
 
 .category-list::-webkit-scrollbar-track {
   background: #f1f1f1;
+}
+
+.category-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin: 8px;
+  width: 350px;
+  flex-shrink: 0;
 }
 
 .add-category-link {
@@ -98,13 +109,4 @@
 
 .add-category-actions .cancel-button:hover {
   color: #0079bf;
-}
-
-.category-list .category-container {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  margin: 8px;
-  width: 250px;
 }

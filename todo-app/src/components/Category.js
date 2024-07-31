@@ -17,7 +17,7 @@ const Category = ({ category, onRemove }) => {
   const dispatch = useDispatch();
   const iconRef = useRef(null);
 
-  const lists = useSelector((state) => state.categories);
+  const lists = useSelector((state) => state.categories.categories);
 
   const handleAddTask = () => {
     if (task.trim()) {
@@ -119,89 +119,91 @@ const Category = ({ category, onRemove }) => {
   };
 
   return (
-    <div className="category-card">
-      <div className="category-header">
-        {editingCategory ? (
-          <input
-            type="text"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
-            onBlur={handleCategoryBlur}
-            onKeyPress={handleCategoryKeyPress}
-            autoFocus
-            className="category-title-input"
-          />
+    <div className="category-container">
+      <div className="category-card">
+        <div className="category-header">
+          {editingCategory ? (
+            <input
+              type="text"
+              value={categoryName}
+              onChange={(e) => setCategoryName(e.target.value)}
+              onBlur={handleCategoryBlur}
+              onKeyPress={handleCategoryKeyPress}
+              autoFocus
+              className="category-title-input"
+            />
+          ) : (
+            <h2 className="category-title" onClick={handleEditCategory}>{category.name}</h2>
+          )}
+          {onRemove && (
+            <button className="remove-category" onClick={onRemove}>
+              Kaldır
+            </button>
+          )}
+        </div>
+        <ul className="task-list">
+          {category.tasks.map((task) => (
+            <li key={task.id} className="task-item">
+              <div className="task-text-wrapper">
+                {editingTaskId === task.id ? (
+                  <input
+                    type="text"
+                    value={editingTaskText}
+                    onChange={(e) => setEditingTaskText(e.target.value)}
+                    onBlur={handleTaskEditBlur}
+                    onKeyPress={handleTaskEditKeyPress}
+                    autoFocus
+                    className="task-input-field"
+                  />
+                ) : (
+                  <>
+                    <span className="task-text">{task.text}</span>
+                    <span
+                      className="edit-task-icon"
+                      onClick={() => handleIconClick(task.id)}
+                      ref={iconRef}
+                    >
+                      <i className="fas fa-pencil-alt"></i>
+                    </span>
+                  </>
+                )}
+              </div>
+              <span className="task-dates">
+                {task.startDate && task.endDate && (
+                  <>
+                    <i className="fas fa-clock"></i> {new Date(task.startDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })} - {new Date(task.endDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })}
+                  </>
+                )}
+              </span>
+              {showOptions && selectedTaskId === task.id && (
+                <TaskOptions
+                  onSelectOption={handleOptionSelect}
+                  onClose={handleCloseOptions}
+                  position={optionsPosition}
+                  lists={lists}
+                />
+              )}
+            </li>
+          ))}
+        </ul>
+        {showInput ? (
+          <div className="task-input">
+            <input
+              type="text"
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+              onBlur={handleTaskBlur}
+              onKeyPress={handleTaskKeyPress}
+              placeholder="Yeni bir görev ekle"
+              className="task-input-field"
+            />
+          </div>
         ) : (
-          <h2 className="category-title" onClick={handleEditCategory}>{category.name}</h2>
-        )}
-        {onRemove && (
-          <button className="remove-category" onClick={onRemove}>
-            Kaldır
-          </button>
+          <div className="add-task-link" onClick={() => setShowInput(true)}>
+            + Kart ekle
+          </div>
         )}
       </div>
-      <ul className="task-list">
-        {category.tasks.map((task) => (
-          <li key={task.id} className="task-item">
-            <div className="task-text-wrapper">
-              {editingTaskId === task.id ? (
-                <input
-                  type="text"
-                  value={editingTaskText}
-                  onChange={(e) => setEditingTaskText(e.target.value)}
-                  onBlur={handleTaskEditBlur}
-                  onKeyPress={handleTaskEditKeyPress}
-                  autoFocus
-                  className="task-input-field"
-                />
-              ) : (
-                <>
-                  <span className="task-text">{task.text}</span>
-                  <span
-                    className="edit-task-icon"
-                    onClick={() => handleIconClick(task.id)}
-                    ref={iconRef}
-                  >
-                    <i className="fas fa-pencil-alt"></i>
-                  </span>
-                </>
-              )}
-            </div>
-            <span className="task-dates">
-              {task.startDate && task.endDate && (
-                <>
-                  <i className="fas fa-clock"></i> {new Date(task.startDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })} - {new Date(task.endDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })}
-                </>
-              )}
-            </span>
-            {showOptions && selectedTaskId === task.id && (
-              <TaskOptions
-                onSelectOption={handleOptionSelect}
-                onClose={handleCloseOptions}
-                position={optionsPosition}
-                lists={lists}
-              />
-            )}
-          </li>
-        ))}
-      </ul>
-      {showInput ? (
-        <div className="task-input">
-          <input
-            type="text"
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-            onBlur={handleTaskBlur}
-            onKeyPress={handleTaskKeyPress}
-            placeholder="Yeni bir görev ekle"
-            className="task-input-field"
-          />
-        </div>
-      ) : (
-        <div className="add-task-link" onClick={() => setShowInput(true)}>
-          + Kart ekle
-        </div>
-      )}
     </div>
   );
 };

@@ -1,10 +1,35 @@
+.category-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  padding: 16px;
+  background: none; /* Remove background */
+  border-radius: 8px;
+  margin: 16px auto;
+  max-width: 100%;
+  box-shadow: none; /* Remove box shadow */
+}
+
+.category-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.category-container::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.category-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
 .category-card {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  margin: 16px;
-  padding: 16px;
-  width: 320px; /* Genişliği biraz artırdık */
+  margin: 6px;
+  padding: 6px;
+  width: 320px;
   height: auto;
   display: inline-block;
   vertical-align: top;

@@ -1,0 +1,70 @@
+@font-face {
+    font-family: 'lovin';
+    src: url('../assets/fonts/lovin.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body.login-page, html.login-page {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../assets/login.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.login-text {
+    position: absolute;
+    top: 40%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: left;
+    border-radius: 10px;
+    max-width: 40%;
+    z-index: 1;
+    font-size: 60px;
+    font-family: 'lovin', sans-serif;
+    animation: slideInFromLeft 1s ease-out;
+}
+
+.login-button {
+    position: absolute;
+    top: 75%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.login-button:hover {
+    background-color: #357ae8;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translate(-150%, -50%);
+    }
+    100% {
+        transform: translate(-50%, -50%);
+    }
+}

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Datepicker from './Datepicker';
+import MoveTaskForm from './MoveTaskForm';
 import '../styles/TaskOptions.css';
 
 const TaskOptions = ({ onSelectOption, onClose, position, lists }) => {
   const [showDatepicker, setShowDatepicker] = useState(false);
   const [showMoveForm, setShowMoveForm] = useState(false);
   const [selectedDate, setSelectedDate] = useState({ start: null, end: null });
-  const [selectedList, setSelectedList] = useState('');
-  const [selectedPosition, setSelectedPosition] = useState(1);
+  const [moveFormPosition, setMoveFormPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     document.body.classList.add('overlay-open');
@@ -30,8 +30,8 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists }) => {
     setShowDatepicker(false);
   };
 
-  const handleMove = () => {
-    onSelectOption('move', { listId: selectedList, position: selectedPosition });
+  const handleMove = ({ listId, position }) => {
+    onSelectOption('move', { listId, position });
     setShowMoveForm(false);
   };
 
@@ -44,7 +44,11 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists }) => {
     setShowDatepicker(true);
   };
 
-  const openMoveForm = () => {
+  const openMoveForm = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const formTop = rect.top + window.scrollY;
+    const formLeft = rect.left + window.scrollX;
+    setMoveFormPosition({ top: formTop, left: formLeft });
     setShowMoveForm(true);
   };
 
@@ -59,26 +63,12 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists }) => {
             onCancel={handleCancel}
           />
         ) : showMoveForm ? (
-          <div className="move-form">
-            <label>Liste</label>
-            <select value={selectedList} onChange={(e) => setSelectedList(e.target.value)}>
-              {lists.map((list) => (
-                <option key={list.id} value={list.id}>
-                  {list.name}
-                </option>
-              ))}
-            </select>
-            <label>Konum</label>
-            <select value={selectedPosition} onChange={(e) => setSelectedPosition(e.target.value)}>
-              {[...Array(10).keys()].map((i) => (
-                <option key={i + 1} value={i + 1}>
-                  {i + 1}
-                </option>
-              ))}
-            </select>
-            <button onClick={handleMove}>Taşı</button>
-            <button onClick={handleCancel}>İptal</button>
-          </div>
+          <MoveTaskForm
+            lists={lists}
+            onMove={handleMove}
+            onCancel={handleCancel}
+            position={moveFormPosition}
+          />
         ) : (
           <>
             <div className="task-option" onClick={() => onSelectOption('open')}>

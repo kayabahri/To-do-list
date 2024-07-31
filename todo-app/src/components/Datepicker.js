@@ -4,19 +4,19 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/Datepicker.css';
 
 const Datepicker = ({ selectedDate, onDateChange, onSave, onCancel }) => {
-  const [startDate, setStartDate] = useState(selectedDate.start || null);
-  const [endDate, setEndDate] = useState(selectedDate.end || null);
+  const [startDate, setStartDate] = useState(selectedDate.start ? new Date(selectedDate.start) : null);
+  const [endDate, setEndDate] = useState(selectedDate.end ? new Date(selectedDate.end) : null);
   const [selectingStartDate, setSelectingStartDate] = useState(true);
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    onDateChange({ start: date, end: endDate });
+    onDateChange({ start: date.toISOString(), end: endDate ? endDate.toISOString() : null });
     setSelectingStartDate(false);
   };
 
   const handleEndDateChange = (date) => {
     setEndDate(date);
-    onDateChange({ start: startDate, end: date });
+    onDateChange({ start: startDate ? startDate.toISOString() : null, end: date.toISOString() });
   };
 
   const handleSave = () => {

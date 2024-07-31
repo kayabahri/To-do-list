@@ -1,12 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, getDoc } from "firebase/firestore";
-import { db } from '../firebaseConfig';
+import { db, auth } from '../firebaseConfig';
 
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
   async () => {
-    const snapshot = await getDocs(collection(db, 'categories'));
-    const categories = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const categoriesRef = collection(db, 'users', user.uid, 'categories');
+    const snapshot = await getDocs(categoriesRef);
+    const categories = snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        tasks: data.tasks.map(task => ({
+          ...task,
+          startDate: task.startDate ? new Date(task.startDate).toISOString() : null,
+          endDate: task.endDate ? new Date(task.endDate).toISOString() : null
+        }))
+      };
+    });
     return categories;
   }
 );
@@ -14,7 +29,11 @@ export const fetchCategories = createAsyncThunk(
 export const addCategory = createAsyncThunk(
   'categories/addCategory',
   async (categoryName) => {
-    const docRef = await addDoc(collection(db, 'categories'), { name: categoryName, tasks: [] });
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const categoriesRef = collection(db, 'users', user.uid, 'categories');
+    const docRef = await addDoc(categoriesRef, { name: categoryName, tasks: [] });
     return { id: docRef.id, name: categoryName, tasks: [] };
   }
 );
@@ -22,7 +41,11 @@ export const addCategory = createAsyncThunk(
 export const removeCategory = createAsyncThunk(
   'categories/removeCategory',
   async (categoryId) => {
-    await deleteDoc(doc(db, 'categories', categoryId));
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const categoryRef = doc(db, 'users', user.uid, 'categories', categoryId);
+    await deleteDoc(categoryRef);
     return categoryId;
   }
 );
@@ -30,7 +53,10 @@ export const removeCategory = createAsyncThunk(
 export const addTask = createAsyncThunk(
   'categories/addTask',
   async ({ categoryId, taskText }) => {
-    const categoryRef = doc(db, 'categories', categoryId);
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const categoryRef = doc(db, 'users', user.uid, 'categories', categoryId);
     const categoryDoc = await getDoc(categoryRef);
     const categoryData = categoryDoc.data();
     const newTask = { id: Date.now().toString(), text: taskText, startDate: null, endDate: null };
@@ -43,7 +69,10 @@ export const addTask = createAsyncThunk(
 export const removeTask = createAsyncThunk(
   'categories/removeTask',
   async ({ categoryId, taskId }) => {
-    const categoryRef = doc(db, 'categories', categoryId);
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const categoryRef = doc(db, 'users', user.uid, 'categories', categoryId);
     const categoryDoc = await getDoc(categoryRef);
     const categoryData = categoryDoc.data();
     const updatedTasks = categoryData.tasks.filter(task => task.id !== taskId);
@@ -55,7 +84,10 @@ export const removeTask = createAsyncThunk(
 export const updateCategory = createAsyncThunk(
   'categories/updateCategory',
   async ({ categoryId, newName }) => {
-    const categoryRef = doc(db, 'categories', categoryId);
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const categoryRef = doc(db, 'users', user.uid, 'categories', categoryId);
     await updateDoc(categoryRef, { name: newName });
     return { categoryId, newName };
   }
@@ -64,7 +96,10 @@ export const updateCategory = createAsyncThunk(
 export const updateTask = createAsyncThunk(
   'categories/updateTask',
   async ({ categoryId, taskId, updatedText }) => {
-    const categoryRef = doc(db, 'categories', categoryId);
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const categoryRef = doc(db, 'users', user.uid, 'categories', categoryId);
     const categoryDoc = await getDoc(categoryRef);
     const categoryData = categoryDoc.data();
     const updatedTasks = categoryData.tasks.map(task =>
@@ -78,11 +113,14 @@ export const updateTask = createAsyncThunk(
 export const setTaskDates = createAsyncThunk(
   'categories/setTaskDates',
   async ({ categoryId, taskId, startDate, endDate }) => {
-    const categoryRef = doc(db, 'categories', categoryId);
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const categoryRef = doc(db, 'users', user.uid, 'categories', categoryId);
     const categoryDoc = await getDoc(categoryRef);
     const categoryData = categoryDoc.data();
     const updatedTasks = categoryData.tasks.map(task =>
-      task.id === taskId ? { ...task, startDate, endDate } : task
+      task.id === taskId ? { ...task, startDate: startDate ? new Date(startDate).toISOString() : null, endDate: endDate ? new Date(endDate).toISOString() : null } : task
     );
     await updateDoc(categoryRef, { tasks: updatedTasks });
     return { categoryId, taskId, startDate, endDate };
@@ -92,12 +130,15 @@ export const setTaskDates = createAsyncThunk(
 export const moveTask = createAsyncThunk(
   'categories/moveTask',
   async ({ fromCategoryId, taskId, toCategoryId, position }) => {
-    const fromCategoryRef = doc(db, 'categories', fromCategoryId);
+    const user = auth.currentUser;
+    if (!user) throw new Error("User not authenticated");
+
+    const fromCategoryRef = doc(db, 'users', user.uid, 'categories', fromCategoryId);
     const fromCategoryDoc = await getDoc(fromCategoryRef);
     const fromCategoryData = fromCategoryDoc.data();
     const task = fromCategoryData.tasks.find(task => task.id === taskId);
 
-    const toCategoryRef = doc(db, 'categories', toCategoryId);
+    const toCategoryRef = doc(db, 'users', user.uid, 'categories', toCategoryId);
     const toCategoryDoc = await getDoc(toCategoryRef);
     const toCategoryData = toCategoryDoc.data();
 
