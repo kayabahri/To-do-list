@@ -14,6 +14,8 @@ import './i18n';
 import { store, persistor } from './redux/store';
 import { auth } from './firebaseConfig';
 import SideBar from './components/SideBar';
+import SharedWorkspace from './redux/SharedWorkspace'; // redux klasöründen import ettik
+import ShareAccessForm from './components/ShareAccessForm'; // ShareAccessForm bileşenini import ettik
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
@@ -50,11 +52,14 @@ const App = () => {
                       <Route path="/" element={<Home />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/settings" element={<Settings />} />
+                      <Route path="/shared/:sharedKey" element={<SharedWorkspace />} />
+                      <Route path="/share-access" element={<ShareAccessForm />} />
                       <Route path="*" element={<Home />} />
                     </>
                   ) : (
                     <>
                       <Route path="/login" element={<Login />} />
+                      <Route path="/share-access" element={<ShareAccessForm />} />
                       <Route path="*" element={<Login />} />
                     </>
                   )}
