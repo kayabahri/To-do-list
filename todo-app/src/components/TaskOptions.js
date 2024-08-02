@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Datepicker from './Datepicker';
 import MoveTaskForm from './MoveTaskForm';
+import TaskCard from './TaskCard';
 import '../styles/TaskOptions.css';
 
-const TaskOptions = ({ onSelectOption, onClose, position, lists }) => {
+const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName }) => {
   const [showDatepicker, setShowDatepicker] = useState(false);
   const [showMoveForm, setShowMoveForm] = useState(false);
+  const [showTaskCard, setShowTaskCard] = useState(false);
   const [selectedDate, setSelectedDate] = useState({ start: null, end: null });
   const [moveFormPosition, setMoveFormPosition] = useState({ top: 0, left: 0 });
 
@@ -52,10 +54,20 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists }) => {
     setShowMoveForm(true);
   };
 
+  const openTaskCard = () => {
+    setShowTaskCard(true);
+  };
+
+  const closeTaskCard = () => {
+    setShowTaskCard(false);
+  };
+
   return (
     <div className="task-options-overlay" onClick={onClose}>
       <div className="task-options" style={style} onClick={(e) => e.stopPropagation()}>
-        {showDatepicker ? (
+        {showTaskCard ? (
+          <TaskCard task={task} listName={listName} onClose={closeTaskCard} />
+        ) : showDatepicker ? (
           <Datepicker
             selectedDate={selectedDate}
             onDateChange={handleDateChange}
@@ -71,7 +83,7 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists }) => {
           />
         ) : (
           <>
-            <div className="task-option" onClick={() => onSelectOption('open')}>
+            <div className="task-option" onClick={openTaskCard}>
               <i className="fas fa-external-link-alt"></i> Kartı Aç
             </div>
             <div className="task-option" onClick={() => onSelectOption('edit')}>

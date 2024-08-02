@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     position: absolute;
-    top: 50px; /* Barın hemen altında yer alacak */
+    top: 55px; /* Barın hemen altında yer alacak */
     left: 85%;
     transform: translateX(-50%);
     background: white;
@@ -44,6 +44,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 150px; /* Genişlik azaltıldı */
+    margin-top: 10px;
   }
   
   .share-button, .view-button, .submit-button {
@@ -54,7 +55,8 @@
     padding: 8px 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-right: 50px; /* Butonları biraz sola almak için sağ kenar boşluğu */
+    margin-right: 50px;
+    margin-top: 10px;
   }
   
   .share-button:hover, .view-button:hover, .submit-button:hover {

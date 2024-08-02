@@ -46,7 +46,8 @@ body.login-page, html.login-page {
     top: 75%;
     left: 25%;
     transform: translate(-50%, -50%);
-    background-color: #4285f4;
+    background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
+    background-size: 400% 400%;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -54,6 +55,27 @@ body.login-page, html.login-page {
     cursor: pointer;
     border-radius: 5px;
     z-index: 1;
+    animation: gradientBackground 3s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-button i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .login-button:hover {

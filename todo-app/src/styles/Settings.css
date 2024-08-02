@@ -9,6 +9,7 @@
     position: relative;
     border-radius: 12px;
     min-height: 15vh;
+    margin-top: 100px;
   }
   
   body.light .settings-page::before {

@@ -9,13 +9,17 @@ const SharedWorkspace = () => {
 
   useEffect(() => {
     const fetchWorkspace = async () => {
-      const docRef = doc(db, 'workspaces', sharedKey);
-      const docSnap = await getDoc(docRef);
+      try {
+        const docRef = doc(db, 'workspaces', sharedKey);
+        const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        setWorkspaceData(docSnap.data());
-      } else {
-        console.log('No such document!');
+        if (docSnap.exists()) {
+          setWorkspaceData(docSnap.data());
+        } else {
+          console.log('No such document!');
+        }
+      } catch (error) {
+        console.error("Error fetching document: ", error);
       }
     };
 
@@ -27,6 +31,7 @@ const SharedWorkspace = () => {
       {workspaceData ? (
         <div>
           <h1>{workspaceData.name}</h1>
+          <p>{workspaceData.description}</p>
           {/* Diğer çalışma alanı verilerini burada gösterebilirsiniz */}
         </div>
       ) : (

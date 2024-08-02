@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
@@ -20,10 +20,12 @@ import ShareAccessForm from './components/ShareAccessForm'; // ShareAccessForm b
 const App = () => {
   const { theme } = useContext(ThemeContext);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -37,10 +39,18 @@ const App = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+      </div>
+    ); // Yükleniyor ekranı
+  }
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="loading-container"><div className="loading-spinner"></div></div>}>
           <div className={`App ${theme}`}>
             <Router>
               {user && <Header />}
@@ -60,7 +70,7 @@ const App = () => {
                     <>
                       <Route path="/login" element={<Login />} />
                       <Route path="/share-access" element={<ShareAccessForm />} />
-                      <Route path="*" element={<Login />} />
+                      <Route path="*" element={<Navigate to="/login" />} />
                     </>
                   )}
                 </Routes>

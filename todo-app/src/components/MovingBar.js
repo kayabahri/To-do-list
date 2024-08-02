@@ -31,8 +31,14 @@ const MovingBar = ({ sidebarOpen }) => {
     fetchUserKey();
   }, []);
 
-  const handleShare = () => {
-    if (userKey) {
+  const handleShare = async () => {
+    const user = auth.currentUser;
+    if (user && userKey) {
+      const workspaceData = {
+        name: "Çalışma Alanı", // Bu verileri dinamik olarak ayarlayabilirsiniz
+        description: "Bu, paylaşılan çalışma alanının bir örneğidir."
+      };
+      await setDoc(doc(db, 'workspaces', userKey), workspaceData);
       alert(`Paylaşım anahtarınız: ${userKey}`);
     } else {
       alert('Lütfen önce giriş yapınız.');

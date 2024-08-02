@@ -9,14 +9,24 @@ const Datepicker = ({ selectedDate, onDateChange, onSave, onCancel }) => {
   const [selectingStartDate, setSelectingStartDate] = useState(true);
 
   const handleStartDateChange = (date) => {
+    console.log('Start Date Selected:', date);
     setStartDate(date);
+    if (endDate && date > endDate) {
+      setEndDate(null);
+    }
     onDateChange({ start: date.toISOString(), end: endDate ? endDate.toISOString() : null });
     setSelectingStartDate(false);
   };
 
   const handleEndDateChange = (date) => {
-    setEndDate(date);
-    onDateChange({ start: startDate ? startDate.toISOString() : null, end: date.toISOString() });
+    console.log('End Date Selected:', date);
+    if (startDate && date < startDate) {
+      alert('Bitiş tarihi başlangıç tarihinden önce olamaz!');
+    } else {
+      setEndDate(date);
+      onDateChange({ start: startDate ? startDate.toISOString() : null, end: date.toISOString() });
+      setSelectingStartDate(true);
+    }
   };
 
   const handleSave = () => {
@@ -38,10 +48,10 @@ const Datepicker = ({ selectedDate, onDateChange, onSave, onCancel }) => {
           <DatePicker
             selected={startDate}
             onChange={handleStartDateChange}
-            dateFormat="Pp"
-            showTimeSelect
+            dateFormat="dd/MM/yyyy"
             placeholderText="Başlangıç Tarihi Seç"
             className="datepicker-input"
+            shouldCloseOnSelect={true} // Tarih seçildiğinde takvimi kapatır
           />
         </label>
         {!selectingStartDate && (
@@ -50,10 +60,11 @@ const Datepicker = ({ selectedDate, onDateChange, onSave, onCancel }) => {
             <DatePicker
               selected={endDate}
               onChange={handleEndDateChange}
-              dateFormat="Pp"
-              showTimeSelect
+              dateFormat="dd/MM/yyyy"
               placeholderText="Bitiş Tarihi Seç"
               className="datepicker-input"
+              minDate={startDate}
+              shouldCloseOnSelect={true} // Tarih seçildiğinde takvimi kapatır
             />
           </label>
         )}
