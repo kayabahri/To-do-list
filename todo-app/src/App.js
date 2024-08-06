@@ -8,14 +8,14 @@ import About from './components/About';
 import Settings from './components/Settings';
 import Home from './components/Home';
 import Login from './components/Login';
+import SideBar from './components/SideBar';
+import SharedWorkspace from './redux/SharedWorkspace';
+import ShareAccessForm from './components/ShareAccessForm';
 import { ThemeContext } from './contexts/ThemeContext';
 import './styles/App.css';
 import './i18n';
 import { store, persistor } from './redux/store';
 import { auth } from './firebaseConfig';
-import SideBar from './components/SideBar';
-import SharedWorkspace from './redux/SharedWorkspace'; // redux klasöründen import ettik
-import ShareAccessForm from './components/ShareAccessForm'; // ShareAccessForm bileşenini import ettik
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
@@ -44,7 +44,7 @@ const App = () => {
       <div className="loading-container">
         <div className="loading-spinner"></div>
       </div>
-    ); // Yükleniyor ekranı
+    );
   }
 
   return (

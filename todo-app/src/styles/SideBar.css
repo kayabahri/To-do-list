@@ -58,3 +58,17 @@
 .sidebar.dark li:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .sidebar-logo img {
+    max-width: 60%;
+  }
+
+  .sidebar li {
+    padding: 10px 15px;
+  }
+}
