@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchCategories, addCategory, removeCategory, updateCategory } from '../redux/categorySlice';
+import { fetchCategories, addCategory, removeCategory, updateCategory } from '../redux/thunks/categoryThunks';
 import Category from './Category';
 import '../styles/CategoryList.css';
 

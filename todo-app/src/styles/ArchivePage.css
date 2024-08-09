@@ -1,0 +1,21 @@
+  .archive-page {
+    padding: 20px;
+  }
+  
+  .archive-page h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .archive-page ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .archive-page li {
+    background: #f4f4f4;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  

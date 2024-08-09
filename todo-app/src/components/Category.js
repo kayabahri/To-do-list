@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTask, removeTask, updateTask, updateCategory, setTaskDates, moveTask } from '../redux/categorySlice';
+import { addTask, removeTask, updateTask, updateCategory, setTaskDates, moveTask } from '../redux/thunks/categoryThunks';
+import { archiveTask } from '../redux/thunks/archiveThunks'; // Arşivleme thunk'ı import edildi
 import TaskOptions from './TaskOptions';
 import '../styles/Category.css';
 
@@ -67,7 +68,9 @@ const Category = ({ category, onRemove }) => {
         setShowOptions(false);
         break;
       case 'archive':
-        // Archive task logic here
+        console.log('Archive option selected for task:', selectedTaskId);
+        dispatch(archiveTask({ categoryId: category.id, taskId: selectedTaskId }));
+        setShowOptions(false);
         break;
       case 'setDate':
         const { start, end } = data;
@@ -179,8 +182,10 @@ const Category = ({ category, onRemove }) => {
                 <TaskOptions
                   onSelectOption={handleOptionSelect}
                   onClose={handleCloseOptions}
-                  position={optionsPosition}
                   lists={lists}
+                  task={task}
+                  listName={category.name}
+                  position={optionsPosition}
                 />
               )}
             </li>

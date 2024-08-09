@@ -11,6 +11,7 @@ import Login from './components/Login';
 import SideBar from './components/SideBar';
 import SharedWorkspace from './redux/SharedWorkspace';
 import ShareAccessForm from './components/ShareAccessForm';
+import ArchivePage from './components/ArchivePage'; // Arşiv sayfası import edildi
 import { ThemeContext } from './contexts/ThemeContext';
 import './styles/App.css';
 import './i18n';
@@ -64,6 +65,7 @@ const App = () => {
                       <Route path="/settings" element={<Settings />} />
                       <Route path="/shared/:sharedKey" element={<SharedWorkspace />} />
                       <Route path="/share-access" element={<ShareAccessForm />} />
+                      <Route path="/archive" element={<ArchivePage />} /> {/* Arşiv sayfası rotası eklendi */}
                       <Route path="*" element={<Home />} />
                     </>
                   ) : (

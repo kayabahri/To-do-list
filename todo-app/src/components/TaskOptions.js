@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Datepicker from './Datepicker';
 import MoveTaskForm from './MoveTaskForm';
 import TaskCard from './TaskCard';
+import { archiveTask } from '../redux/thunks/archiveThunks'; // Arşivleme thunk import edildi
 import '../styles/TaskOptions.css';
 
 const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName }) => {
@@ -11,6 +13,8 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
   const [selectedDate, setSelectedDate] = useState({ start: null, end: null });
   const [moveFormPosition, setMoveFormPosition] = useState({ top: 0, left: 0 });
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     document.body.classList.add('overlay-open');
     return () => {
@@ -19,8 +23,8 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
   }, []);
 
   const style = {
-    top: `${position.top}px`,
-    left: `${position.left}px`
+    top: `${position?.top || 0}px`,
+    left: `${position?.left || 0}px`
   };
 
   const handleDateChange = (date) => {
@@ -62,6 +66,22 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
     setShowTaskCard(false);
   };
 
+  const handleArchive = () => {
+    console.log('Archive option selected for task:', task); // Task nesnesini kontrol edin
+    if (!task || !task.categoryId || !task.id) {
+      console.error('Task data is incomplete:', task);
+      return;
+    }
+    dispatch(archiveTask({ categoryId: task.categoryId, taskId: task.id }))
+      .then(() => {
+        console.log('Archive process completed.');
+        onSelectOption('archive', { categoryId: task.categoryId, taskId: task.id });
+      })
+      .catch((error) => {
+        console.error('Error during archive process:', error);
+      });
+  };
+
   return (
     <div className="task-options-overlay" onClick={onClose}>
       <div className="task-options" style={style} onClick={(e) => e.stopPropagation()}>
@@ -98,7 +118,7 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
             <div className="task-option" onClick={() => onSelectOption('delete')}>
               <i className="fas fa-trash-alt"></i> Sil
             </div>
-            <div className="task-option" onClick={() => onSelectOption('archive')}>
+            <div className="task-option" onClick={handleArchive}>
               <i className="fas fa-archive"></i> Arşiv
             </div>
           </>

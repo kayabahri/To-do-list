@@ -28,6 +28,10 @@ const SideBar = forwardRef(({ show, onMouseLeave }, ref) => {
     navigate('/settings');
   };
 
+  const handleArchiveClick = () => {
+    navigate('/archive');
+  };
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -54,6 +58,7 @@ const SideBar = forwardRef(({ show, onMouseLeave }, ref) => {
         </li>
         <li onClick={handleAboutClick}>Hakkında</li>
         <li onClick={handleSettingsClick}>Ayarlar</li>
+        <li onClick={handleArchiveClick}>Arşiv</li>
         <li onClick={handleLogout} className="logout-button">Çıkış Yap</li>
       </ul>
     </div>
