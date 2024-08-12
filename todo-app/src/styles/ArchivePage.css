@@ -1,67 +1,61 @@
 .archive-page {
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: transparent;
+  margin-top: 100px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
-.archive-page h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #333;
-  font-weight: 600;
-  text-align: center;
-}
-
-.archive-page ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.archive-page li {
-  background: #ffffff;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 12px;
+.category-group {
+  background: #f4f4f4;
+  border-radius: 8px;
+  padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-  overflow: hidden;
+  flex: 0 0 300px;
+  min-width: 300px;
 }
 
-.archive-page li:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.category-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: left; /* Kategori başlığını sola hizalar */
 }
 
 .task-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  background: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-align: left; /* Kart içindeki tüm metni sola hizalar */
 }
 
 .task-card p {
   margin: 0 0 10px;
-  color: #555;
   font-size: 16px;
+  color: #333;
+  text-align: left; /* Task metnini sola hizalar */
 }
 
-.task-card .task-dates {
-  font-size: 14px;
-  color: #888;
+.task-buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
-.task-card button {
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
+.action-text {
   cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 10px;
-  width: 100%;
+  font-size: 14px;
 }
 
-.task-card button:hover {
-  background-color: #0056b3;
+.restore-text {
+  color: #28a745; /* Yeşil renk */
+}
+
+.delete-text {
+  color: #dc3545; /* Kırmızı renk */
 }

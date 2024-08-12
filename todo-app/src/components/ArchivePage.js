@@ -5,8 +5,8 @@ import '../styles/ArchivePage.css';
 
 const ArchivePage = () => {
   const dispatch = useDispatch();
-  const archivedTasks = useSelector((state) => state.archivedTasks?.tasks || []); // Undefined kontrolü yapıldı
-  const status = useSelector((state) => state.archivedTasks?.status || 'idle'); // Undefined kontrolü yapıldı
+  const archivedTasks = useSelector((state) => state.archivedTasks?.tasks || []);
+  const status = useSelector((state) => state.archivedTasks?.status || 'idle');
   const error = useSelector((state) => state.archivedTasks?.error);
 
   useEffect(() => {
@@ -21,52 +21,53 @@ const ArchivePage = () => {
 
   const handleUnarchive = (taskId) => {
     dispatch(unarchiveTask({ taskId })).then(() => {
-      dispatch(fetchArchivedTasks()); // Yeniden yükle
+      dispatch(fetchArchivedTasks());
     });
   };
 
   const handleDelete = (taskId) => {
     dispatch(deleteArchivedTask({ taskId })).then(() => {
-      dispatch(fetchArchivedTasks()); // Yeniden yükle
+      dispatch(fetchArchivedTasks());
     });
   };
 
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  const groupedTasks = archivedTasks.reduce((groups, task) => {
+    const category = task.categoryName || 'Belirtilmemiş';
+    if (!groups[category]) {
+      groups[category] = [];
+    }
+    groups[category].push(task);
+    return groups;
+  }, {});
 
   return (
     <div className="archive-page">
-      <h2>Archived Tasks</h2>
-      {archivedTasks.length > 0 ? (
-        <ul>
-          {archivedTasks.map((task) => (
-            <li key={task.id}>
-              <div className="task-card">
-                <p>{task.text}</p>
-                <p>Kategori: {task.categoryName || 'Belirtilmemiş'}</p> {/* Kategori adı yoksa 'Belirtilmemiş' gösterilir */}
-                <span className="task-dates">
-                  {task.startDate && task.endDate && (
-                    <>
-                      <i className="fas fa-clock"></i> {new Date(task.startDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })} - {new Date(task.endDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })}
-                    </>
-                  )}
+      {Object.entries(groupedTasks).map(([categoryName, tasks]) => (
+        <div key={categoryName} className="category-group">
+          <h3 className="category-title">{categoryName}</h3>
+          {tasks.map((task) => (
+            <div key={task.id} className="task-card">
+              <p>{task.text}</p>
+              <div className="task-buttons">
+                <span
+                  className="action-text restore-text"
+                  onClick={() => handleUnarchive(task.id)}
+                >
+                  Arşivden Çıkart
                 </span>
-                <button onClick={() => handleUnarchive(task.id)}>Geri Çıkar</button>
-                <button onClick={() => handleDelete(task.id)}>Sil</button>
+                <span
+                  className="action-text delete-text"
+                  onClick={() => handleDelete(task.id)}
+                >
+                  Sil
+                </span>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
-      ) : (
-        <div>No archived tasks available.</div>
-      )}
+        </div>
+      ))}
     </div>
-  );  
+  );
 };
 
 export default ArchivePage;
