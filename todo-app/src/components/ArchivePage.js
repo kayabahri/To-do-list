@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchArchivedTasks } from '../redux/thunks/archiveThunks';
+import { fetchArchivedTasks, unarchiveTask, deleteArchivedTask } from '../redux/thunks/archiveThunks';
 import '../styles/ArchivePage.css';
 
 const ArchivePage = () => {
@@ -12,6 +12,24 @@ const ArchivePage = () => {
   useEffect(() => {
     dispatch(fetchArchivedTasks());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (status === 'succeeded') {
+      console.log('Archived tasks loaded successfully');
+    }
+  }, [status]);
+
+  const handleUnarchive = (taskId) => {
+    dispatch(unarchiveTask({ taskId })).then(() => {
+      dispatch(fetchArchivedTasks()); // Yeniden yükle
+    });
+  };
+
+  const handleDelete = (taskId) => {
+    dispatch(deleteArchivedTask({ taskId })).then(() => {
+      dispatch(fetchArchivedTasks()); // Yeniden yükle
+    });
+  };
 
   if (status === 'loading') {
     return <div>Loading...</div>;
@@ -30,7 +48,7 @@ const ArchivePage = () => {
             <li key={task.id}>
               <div className="task-card">
                 <p>{task.text}</p>
-                <p>Kategori: {task.categoryName}</p> {/* Görevin ait olduğu kartı gösterir */}
+                <p>Kategori: {task.categoryName || 'Belirtilmemiş'}</p> {/* Kategori adı yoksa 'Belirtilmemiş' gösterilir */}
                 <span className="task-dates">
                   {task.startDate && task.endDate && (
                     <>
@@ -38,6 +56,8 @@ const ArchivePage = () => {
                     </>
                   )}
                 </span>
+                <button onClick={() => handleUnarchive(task.id)}>Geri Çıkar</button>
+                <button onClick={() => handleDelete(task.id)}>Sil</button>
               </div>
             </li>
           ))}
@@ -46,7 +66,7 @@ const ArchivePage = () => {
         <div>No archived tasks available.</div>
       )}
     </div>
-  );
+  );  
 };
 
 export default ArchivePage;

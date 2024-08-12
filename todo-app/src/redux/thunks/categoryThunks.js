@@ -42,7 +42,7 @@ export const addTask = createAsyncThunk('categories/addTask', async ({ categoryI
   const categoryRef = doc(db, 'users', user.uid, 'categories', categoryId);
   const categoryDoc = await getDoc(categoryRef);
 
-  if (!categoryDoc.exists) throw new Error("Category not found");
+  if (!categoryDoc.exists()) throw new Error("Category not found");
 
   const categoryData = categoryDoc.data();
   const newTask = { id: new Date().toISOString(), text: taskText };
@@ -61,7 +61,7 @@ export const removeTask = createAsyncThunk('categories/removeTask', async ({ cat
   const categoryRef = doc(db, 'users', user.uid, 'categories', categoryId);
   const categoryDoc = await getDoc(categoryRef);
 
-  if (!categoryDoc.exists) throw new Error("Category not found");
+  if (!categoryDoc.exists()) throw new Error("Category not found");
 
   const categoryData = categoryDoc.data();
   const updatedTasks = categoryData.tasks.filter(task => task.id !== taskId);

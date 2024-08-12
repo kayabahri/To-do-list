@@ -67,11 +67,14 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
   };
 
   const handleArchive = () => {
-    console.log('Archive option selected for task:', task); // Task nesnesini kontrol edin
-    if (!task || !task.categoryId || !task.id) {
+    console.log('Archive option selected for task:', task);
+  
+    // Eksik bilgi kontrolü
+    if (!task.categoryId || !task.id) {
       console.error('Task data is incomplete:', task);
       return;
     }
+  
     dispatch(archiveTask({ categoryId: task.categoryId, taskId: task.id }))
       .then(() => {
         console.log('Archive process completed.');
@@ -81,7 +84,7 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
         console.error('Error during archive process:', error);
       });
   };
-
+  
   return (
     <div className="task-options-overlay" onClick={onClose}>
       <div className="task-options" style={style} onClick={(e) => e.stopPropagation()}>

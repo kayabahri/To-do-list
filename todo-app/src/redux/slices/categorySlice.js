@@ -10,6 +10,7 @@ import {
   updateTask,
   updateCategory,
 } from '../thunks/categoryThunks';
+import { archiveTask } from '../thunks/archiveThunks';
 
 const categorySlice = createSlice({
   name: 'categories',
@@ -82,6 +83,13 @@ const categorySlice = createSlice({
         const category = state.categories.find(category => category.id === categoryId);
         if (category) {
           category.name = newName;
+        }
+      })
+      .addCase(archiveTask.fulfilled, (state, action) => {
+        const { categoryId, taskId } = action.payload;
+        const category = state.categories.find(category => category.id === categoryId);
+        if (category) {
+          category.tasks = category.tasks.filter(task => task.id !== taskId);
         }
       });
   }

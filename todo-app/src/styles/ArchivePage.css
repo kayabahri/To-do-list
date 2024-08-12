@@ -1,21 +1,67 @@
-  .archive-page {
-    padding: 20px;
-  }
-  
-  .archive-page h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .archive-page ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .archive-page li {
-    background: #f4f4f4;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
-  
+.archive-page {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.archive-page h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+}
+
+.archive-page ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.archive-page li {
+  background: #ffffff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.archive-page li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.task-card p {
+  margin: 0 0 10px;
+  color: #555;
+  font-size: 16px;
+}
+
+.task-card .task-dates {
+  font-size: 14px;
+  color: #888;
+}
+
+.task-card button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.task-card button:hover {
+  background-color: #0056b3;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTask, removeTask, updateTask, updateCategory, setTaskDates, moveTask } from '../redux/thunks/categoryThunks';
-import { archiveTask } from '../redux/thunks/archiveThunks'; // Arşivleme thunk'ı import edildi
+import { archiveTask } from '../redux/thunks/archiveThunks';
 import TaskOptions from './TaskOptions';
 import '../styles/Category.css';
 
@@ -45,18 +45,33 @@ const Category = ({ category, onRemove }) => {
   const handleIconClick = (taskId) => {
     setSelectedTaskId(taskId);
     setShowOptions(true);
-    const iconRect = iconRef.current.getBoundingClientRect();
-    setOptionsPosition({
-      top: iconRect.top,
-      left: iconRect.right
-    });
+
+    if (iconRef.current) { 
+      const iconRect = iconRef.current.getBoundingClientRect();
+      setOptionsPosition({
+        top: iconRect.top,
+        left: iconRect.right
+      });
+    } else {
+      console.warn('Icon element not found');
+      setShowOptions(false);
+    }
   };
 
   const handleOptionSelect = (option, data) => {
+    const selectedTask = category.tasks.find(task => task.id === selectedTaskId);
+
+    if (!selectedTask) {
+      console.error('Task not found.');
+      return;
+    }
+
+    const taskWithCategoryId = { ...selectedTask, categoryId: category.id };
+
     switch (option) {
       case 'edit':
         setEditingTaskId(selectedTaskId);
-        setEditingTaskText(category.tasks.find(task => task.id === selectedTaskId).text);
+        setEditingTaskText(selectedTask.text);
         setShowOptions(false);
         break;
       case 'move':
@@ -68,8 +83,8 @@ const Category = ({ category, onRemove }) => {
         setShowOptions(false);
         break;
       case 'archive':
-        console.log('Archive option selected for task:', selectedTaskId);
-        dispatch(archiveTask({ categoryId: category.id, taskId: selectedTaskId }));
+        console.log('Archive option selected for task:', taskWithCategoryId);
+        dispatch(archiveTask({ categoryId: taskWithCategoryId.categoryId, taskId: taskWithCategoryId.id }));
         setShowOptions(false);
         break;
       case 'setDate':
@@ -183,7 +198,7 @@ const Category = ({ category, onRemove }) => {
                   onSelectOption={handleOptionSelect}
                   onClose={handleCloseOptions}
                   lists={lists}
-                  task={task}
+                  task={{ ...task, categoryId: category.id }} // taskWithCategoryId doğru bir şekilde burada tanımlandı
                   listName={category.name}
                   position={optionsPosition}
                 />
