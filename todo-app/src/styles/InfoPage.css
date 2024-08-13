@@ -1,0 +1,154 @@
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../assets/fonts/OpenSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSans-Bold';
+    src: url('../assets/fonts/OpenSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+/* Genel sayfa düzeni */
+.info-page {
+    width: 100%;
+    height: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-top: -20px;
+    font-family: 'OpenSans', sans-serif; /* Font ailesi uygulanıyor */
+}
+
+/* Bölümler için stil */
+.section {
+    width: 100%;
+    min-height: 100vh; /* Sayfanın her bölümü tam ekran olacak şekilde ayarlandı */
+    padding: 100px 50px;
+    color: white;
+    text-align: left; /* Sol hizalamayı sağlamak için değiştirildi */
+    display: flex;
+    flex-direction: row; /* Görseli ve metni yatayda yan yana getirmek için ayarlandı */
+    justify-content: space-between; /* İçeriği alan boyunca yaymak için ayarlandı */
+    align-items: center; /* Görsel ve metni dikeyde ortalamak için ayarlandı */
+}
+
+/* Bölüm 1: Giriş */
+.section-1 {
+    background: linear-gradient(135deg, #7f00ff, #e100ff);
+}
+
+/* Bölüm 2: Üretkenlik merkezi */
+.section-2 {
+    background: linear-gradient(135deg, #e100ff, #7f00ff);
+    padding: 100px 50px;
+}
+
+/* Bölüm 3: Çalışma sürecine yeni bir bakış */
+.section-3 {
+    background-color: #007bff;
+    padding: 100px 50px;
+}
+
+.section-content {
+    max-width: 45%; /* Metnin kaplayacağı alanı sınırlamak için %45 ayarlandı */
+}
+
+.info-illustration img {
+    max-width: 75%; /* Görselin ekranın sağında yer alması için boyutlandırıldı */
+    height: auto;
+    border-radius: 10px;
+    margin-left: 80px;
+}
+
+.info-header h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    font-family: 'OpenSans-Bold', sans-serif; /* Başlık için kalın font kullanılıyor */
+}
+
+.info-header p {
+    font-size: 1.75rem;
+    margin-bottom: 30px;
+    font-family: 'OpenSans', sans-serif; /* Paragraflar için normal font kullanılıyor */
+}
+
+.cta-button {
+    padding: 15px 30px;
+    font-size: 1.75rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+}
+
+@media screen and (max-width: 768px) {
+    .section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .info-illustration img {
+        max-width: 80%;
+        margin: 0 auto;
+    }
+
+    .section-content {
+        max-width: 100%;
+    }
+
+    .info-header h1 {
+        font-size: 2.5rem; /* Mobilde başlık boyutu */
+    }
+
+    .info-header p {
+        font-size: 1.5rem; /* Mobilde paragraf boyutu */
+    }
+
+    .cta-button {
+        font-size: 1.5rem; /* Mobilde buton yazı boyutu */
+        padding: 15px 30px;
+    }
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin-top: auto;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.footer-social a {
+    color: white;
+    margin: 0 10px;
+    font-size: 24px;
+}
+
+.footer-copyright {
+    margin-top: 10px;
+}

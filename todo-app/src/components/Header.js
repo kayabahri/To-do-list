@@ -8,7 +8,7 @@ import { ThemeContext } from '../contexts/ThemeContext';
 import LanguageSelector from './LanguageSelector';
 import '../styles/Header.css';
 
-const Header = () => {
+const Header = ({ hideBars }) => {
   const [showSideBar, setShowSideBar] = useState(false);
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
@@ -40,8 +40,8 @@ const Header = () => {
           <LanguageSelector />
         </div>
       </div>
-      <MovingBar sidebarOpen={showSideBar} />
-      <SideBar show={showSideBar} onMouseLeave={handleMouseLeave} ref={sidebarRef} />
+      {!hideBars && <MovingBar sidebarOpen={showSideBar} />}
+      {!hideBars && <SideBar show={showSideBar} onMouseLeave={handleMouseLeave} ref={sidebarRef} />}
     </>
   );
 };

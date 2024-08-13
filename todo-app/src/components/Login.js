@@ -2,18 +2,20 @@ import React, { useEffect } from 'react';
 import { auth, googleProvider, db } from '../firebaseConfig';
 import { signInWithPopup } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      
-      // Kullanıcı verilerini Firestore'a kaydet
+
       const userDocRef = doc(db, 'users', user.uid);
       const userDoc = await getDoc(userDocRef);
-      
+
       if (!userDoc.exists()) {
         await setDoc(userDocRef, {
           email: user.email,
@@ -21,8 +23,9 @@ const Login = () => {
           settings: {}
         });
       }
-      
+
       console.log('User signed in');
+      navigate('/'); // InfoPage'e yönlendir
     } catch (error) {
       console.error('Error signing in with Google', error);
     }
