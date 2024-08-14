@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Flexbox içeriği arasında boşluk bırakacak şekilde ayarlandı */
+  justify-content: space-between;
   background-size: cover;
   background-position: center;
   transition: background-image 0.3s ease-in-out;
