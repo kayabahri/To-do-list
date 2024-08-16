@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'lovin';
-    src: url('../assets/fonts/lovin.otf') format('opentype');
+    font-family: 'Open Sans';
+    src: url('../assets/fonts/OpenSans-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -17,9 +17,11 @@ body.login-page, html.login-page {
 }
 
 .login-container {
-    position: relative;
-    height: 100vh;
-    width: 100vw;
+    position: absolute; 
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
     background-image: url('../assets/login.png');
     background-size: cover;
     background-position: center;
@@ -28,25 +30,25 @@ body.login-page, html.login-page {
 
 .login-text {
     position: absolute;
-    top: 40%;
-    left: 25%;
+    top: 40%; 
+    left: 25%; 
     transform: translate(-50%, -50%);
     color: white;
-    text-align: left;
+    text-align: left; 
     border-radius: 10px;
-    max-width: 40%;
+    max-width: 40%; 
     z-index: 1;
-    font-size: 60px;
-    font-family: 'lovin', sans-serif;
+    font-size: 36px; /* İlk verdiğiniz boyut geri getirildi */
+    font-family: 'Open Sans', sans-serif;
     animation: slideInFromLeft 1s ease-out;
 }
 
 .login-button {
     position: absolute;
-    top: 75%;
-    left: 25%;
+    top: 75%; 
+    left: 25%; 
     transform: translate(-50%, -50%);
-    background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
+    background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335); /* Gökkuşağı animasyonu için gerekli */
     background-size: 400% 400%;
     color: white;
     border: none;
@@ -55,7 +57,7 @@ body.login-page, html.login-page {
     cursor: pointer;
     border-radius: 5px;
     z-index: 1;
-    animation: gradientBackground 3s ease infinite;
+    animation: gradientBackground 3s ease infinite; /* Gökkuşağı animasyonu */
     display: flex;
     align-items: center;
     justify-content: center;

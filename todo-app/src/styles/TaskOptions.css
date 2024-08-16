@@ -19,6 +19,7 @@
   width: 250px;
   position: absolute;
   z-index: 1001;
+  transform: translate(-50%, 10px); /* Pozisyonu hizalamak için */
 }
 
 .task-option {
@@ -35,4 +36,3 @@
 .task-option:hover {
   background: #f0f0f0;
 }
-

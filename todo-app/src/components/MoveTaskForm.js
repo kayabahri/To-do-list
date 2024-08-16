@@ -4,34 +4,32 @@ import '../styles/MoveTaskForm.css';
 const MoveTaskForm = ({ lists, onMove, onCancel, position }) => {
   const [selectedList, setSelectedList] = useState('');
   const [selectedPosition, setSelectedPosition] = useState(1);
-  const [formPosition, setFormPosition] = useState({ top: position.top, left: position.left });
 
   useEffect(() => {
-    const handleResize = () => {
-      const formElement = document.querySelector('.move-task-form-container');
-      if (formElement) {
-        const rect = formElement.getBoundingClientRect();
-        const newTop = rect.top < 0 ? 0 : rect.top + rect.height > window.innerHeight ? window.innerHeight - rect.height : rect.top;
-        const newLeft = rect.left < 0 ? 0 : rect.left + rect.width > window.innerWidth ? window.innerWidth - rect.width : rect.left;
-        setFormPosition({ top: newTop, left: newLeft });
-      }
-    };
+    const formElement = document.querySelector('.move-task-form-container');
+    if (formElement && position) {
+      const rect = formElement.getBoundingClientRect();
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
+      // Task ile aynı hizada olacak şekilde formu konumlandırma
+      const adjustedTop = position.top - rect.height / 2; // Task'ın ortası ile hizalama
+      const adjustedLeft = position.left + 10; // Task'ın hemen sağına konumlandırma
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+      formElement.style.top = `${adjustedTop}px`;
+      formElement.style.left = `${adjustedLeft}px`;
+    }
   }, [position]);
 
   const handleMove = () => {
-    onMove({ listId: selectedList, position: selectedPosition });
+    if (selectedList) {
+      onMove({ listId: selectedList, position: selectedPosition });
+    } else {
+      console.error('No list selected for moving the task.');
+    }
   };
 
   return (
     <div className="move-task-form-overlay">
-      <div className="move-task-form-container" style={{ top: formPosition.top, left: formPosition.left }}>
+      <div className="move-task-form-container" style={{ position: 'absolute' }}>
         <div className="move-task-form-header">
           <h2>Kartı Taşı</h2>
           <button onClick={onCancel} className="close-button">×</button>
@@ -40,6 +38,7 @@ const MoveTaskForm = ({ lists, onMove, onCancel, position }) => {
           <label>
             Liste
             <select value={selectedList} onChange={(e) => setSelectedList(e.target.value)}>
+              <option value="" disabled>Lütfen bir liste seçin</option>
               {lists.map((list) => (
                 <option key={list.id} value={list.id}>{list.name}</option>
               ))}

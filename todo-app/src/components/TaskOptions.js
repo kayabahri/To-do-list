@@ -1,19 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import Datepicker from './Datepicker';
 import MoveTaskForm from './MoveTaskForm';
 import TaskCard from './TaskCard';
-import { archiveTask } from '../redux/thunks/archiveThunks'; // Arşivleme thunk import edildi
+import { archiveTask } from '../redux/thunks/archiveThunks';
 import '../styles/TaskOptions.css';
 
-const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName }) => {
+const TaskOptions = ({ onSelectOption, onClose, lists, task, listName, position }) => {
   const [showDatepicker, setShowDatepicker] = useState(false);
   const [showMoveForm, setShowMoveForm] = useState(false);
   const [showTaskCard, setShowTaskCard] = useState(false);
   const [selectedDate, setSelectedDate] = useState({ start: null, end: null });
-  const [moveFormPosition, setMoveFormPosition] = useState({ top: 0, left: 0 });
+  const optionsRef = useRef(null);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (optionsRef?.current && position) {
+      const optionsElement = optionsRef.current;
+      optionsElement.style.top = `${position.top}px`;
+      optionsElement.style.left = `${position.left}px`;
+    }
+  }, [position]);
 
   useEffect(() => {
     document.body.classList.add('overlay-open');
@@ -21,11 +29,6 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
       document.body.classList.remove('overlay-open');
     };
   }, []);
-
-  const style = {
-    top: `${position?.top || 0}px`,
-    left: `${position?.left || 0}px`
-  };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -37,6 +40,10 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
   };
 
   const handleMove = ({ listId, position }) => {
+    if (!listId || typeof position !== 'number') {
+      console.error('Invalid listId or position', { listId, position });
+      return;
+    }
     onSelectOption('move', { listId, position });
     setShowMoveForm(false);
   };
@@ -50,11 +57,7 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
     setShowDatepicker(true);
   };
 
-  const openMoveForm = (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const formTop = rect.top + window.scrollY;
-    const formLeft = rect.left + window.scrollX;
-    setMoveFormPosition({ top: formTop, left: formLeft });
+  const openMoveForm = () => {
     setShowMoveForm(true);
   };
 
@@ -67,27 +70,23 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
   };
 
   const handleArchive = () => {
-    console.log('Archive option selected for task:', task);
-  
-    // Eksik bilgi kontrolü
     if (!task.categoryId || !task.id) {
       console.error('Task data is incomplete:', task);
       return;
     }
-  
+
     dispatch(archiveTask({ categoryId: task.categoryId, taskId: task.id }))
       .then(() => {
-        console.log('Archive process completed.');
         onSelectOption('archive', { categoryId: task.categoryId, taskId: task.id });
       })
       .catch((error) => {
         console.error('Error during archive process:', error);
       });
   };
-  
+
   return (
     <div className="task-options-overlay" onClick={onClose}>
-      <div className="task-options" style={style} onClick={(e) => e.stopPropagation()}>
+      <div className="task-options" ref={optionsRef} onClick={(e) => e.stopPropagation()}>
         {showTaskCard ? (
           <TaskCard task={task} listName={listName} onClose={closeTaskCard} />
         ) : showDatepicker ? (
@@ -102,7 +101,6 @@ const TaskOptions = ({ onSelectOption, onClose, position, lists, task, listName 
             lists={lists}
             onMove={handleMove}
             onCancel={handleCancel}
-            position={moveFormPosition}
           />
         ) : (
           <>

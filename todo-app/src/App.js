@@ -45,22 +45,18 @@ const App = () => {
   };
 
   if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-      </div>
-    );
+    return null; // Yükleme sırasında gösterilen içerik kaldırıldı
   }
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Suspense fallback={<div className="loading-container"><div className="loading-spinner"></div></div>}>
+        <Suspense fallback={null}>
           <Router>
             {showInfoPage ? (
               <InfoPage onProceed={() => setShowInfoPage(false)} />
             ) : (
-              <div className={`App ${theme}`}>
+              <div className={`App ${user ? theme : ''}`}>
                 {user && <Header />}
                 {user && <SideBar handleLogout={handleLogout} />}
                 <main className={user ? '' : 'login-page'}>

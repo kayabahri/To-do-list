@@ -3,12 +3,13 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start; /* İçeriği yukarıda hizalamak için */
   background-size: cover;
   background-position: center;
   transition: background-image 0.3s ease-in-out;
+  overflow-x: hidden; /* Yatay kaydırmayı gizlemek için */
+  overflow-y: auto; /* Dikey kaydırmayı etkinleştirir */
 }
-
 
 .App.light {
   background-image: url('../assets/gunesli.png');
@@ -19,20 +20,14 @@
 }
 
 header {
+  width: 100%; /* Header genişliğinin sayfa ile uyumlu olması için */
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   margin-bottom: 20px;
   padding-top: 20px;
-}
-
-header h1 {
-  margin-bottom: 20px;
-}
-
-header input, header button {
-  margin: 5px;
+  box-sizing: border-box;
 }
 
 main {
@@ -41,14 +36,20 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  position: relative;
 }
 
 .todo-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 50px;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap; /* Kartların sığmadığı durumda alt satıra geçmesini sağlar */
+  gap: 20px; /* Kartlar arasında boşluk bırakır */
   width: 100%;
+  max-width: 1200px; /* Maksimum genişlik */
 }
 
 .todo-box {
@@ -59,7 +60,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: calc(100% - 40px); /* Genişliği kartlar arasında boşluk bırakacak şekilde ayarlamak */
   max-width: 500px;
   height: 150px;
 }
@@ -70,9 +71,17 @@ main {
 
 .category-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Kartları sol tarafa hizalar */
+  align-items: flex-start;
   overflow-x: auto;
   padding: 10px 0;
+  width: 100%;
+  max-width: 100%; /* Genişlik ayarı eklenerek boşluk sorununu gideriyoruz */
+}
+
+.category-wrapper > * {
+  flex: 0 0 auto;
+  margin-right: 16px;
 }
 
 .category-wrapper::-webkit-scrollbar {
@@ -88,33 +97,61 @@ main {
   background: #f1f1f1;
 }
 
-.category-wrapper > * {
-  flex: 0 0 auto;
-  margin-right: 16px;
-}
-
-/* Yüklenme Animasyonu */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.loading-container {
+/* Yeni liste ekleme formu */
+.new-list-form {
+  width: 100%; /* Form genişliğini konteynerin genişliğine ayarlamak */
+  max-width: 300px; /* Maksimum genişlik belirleyerek formun çok geniş olmasını engellemek */
+  margin: 0 auto;
+  padding: 10px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh; /* Tam ekran yükseklik */
+  box-sizing: border-box;
 }
 
-.loading-spinner {
-  border: 8px solid #f3f3f3; /* Light grey */
-  border-top: 8px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 2s linear infinite;
+.new-list-form input {
+  width: 90%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.new-list-form button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  background-color: #28a745;
+  cursor: pointer;
+}
+
+.new-list-form button.close-btn {
+  background-color: #dc3545;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.new-list-form button.close-btn:before {
+  content: '✖';
+  font-size: 16px;
+  color: white;
+}
+
+.new-list-form button.close-btn:hover {
+  background-color: #c82333;
+}
+
+.new-list-form button:hover {
+  background-color: #218838;
 }

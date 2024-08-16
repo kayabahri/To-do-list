@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './SideBar';
-import MovingBar from './MovingBar';
 import { ThemeContext } from '../contexts/ThemeContext';
 import LanguageSelector from './LanguageSelector';
 import '../styles/Header.css';
@@ -40,7 +39,7 @@ const Header = ({ hideBars }) => {
           <LanguageSelector />
         </div>
       </div>
-      {!hideBars && <MovingBar sidebarOpen={showSideBar} />}
+      {/* MovingBar kaldırıldı */}
       {!hideBars && <SideBar show={showSideBar} onMouseLeave={handleMouseLeave} ref={sidebarRef} />}
     </>
   );

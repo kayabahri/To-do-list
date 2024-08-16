@@ -4,11 +4,12 @@
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* or justify-content: center; if you want to center the title */
   align-items: center;
   padding: 10px 20px;
   z-index: 999;
   transition: background-color 0.3s, color 0.3s;
+  box-sizing: border-box; /* Add this line to ensure padding doesn't affect width */
 }
 
 .header.light {
@@ -23,8 +24,9 @@
 
 .header h1 {
   flex-grow: 1;
-  text-align: center;
+  text-align: center; /* Keeps the title centered */
   margin: 0;
+  padding: 0 20px; /* Ensures the title has some padding */
 }
 
 .left-icon,
@@ -42,9 +44,8 @@
 .right-icon {
   z-index: 1002;
   color: inherit;
-  transition: transform 0.3s ease;
   position: relative;
-  margin-right: 40px;
+  margin-right: 20px; /* Reduce the margin-right value */
 }
 
 .left-icon.sidebar-open {

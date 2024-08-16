@@ -16,7 +16,8 @@ const Category = ({ category, onRemove }) => {
   const [editingCategory, setEditingCategory] = useState(false);
   const [categoryName, setCategoryName] = useState(category.name);
   const dispatch = useDispatch();
-  const iconRef = useRef(null);
+  const iconRefs = useRef({});
+  const cardRef = useRef(null); // Task'ın bulunduğu box (kart) referansı
 
   const lists = useSelector((state) => state.categories.categories);
 
@@ -46,14 +47,23 @@ const Category = ({ category, onRemove }) => {
     setSelectedTaskId(taskId);
     setShowOptions(true);
 
-    if (iconRef.current) { 
-      const iconRect = iconRef.current.getBoundingClientRect();
+    if (iconRefs.current[taskId] && cardRef.current) {
+      const iconRect = iconRefs.current[taskId].getBoundingClientRect();
+      const cardRect = cardRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const taskMiddle = iconRect.top + (iconRect.height / 2);
+      const optionsHeight = 200; // TaskOptions bileşeninin yaklaşık yüksekliği, gerektiğinde ayarlanabilir
+      const adjustedTop = Math.max(
+        Math.min(taskMiddle - (optionsHeight / 2), windowHeight - optionsHeight - 10),
+        10
+      );
+
       setOptionsPosition({
-        top: iconRect.top,
-        left: iconRect.right
+        top: adjustedTop + window.scrollY,
+        left: cardRect.right + window.scrollX, // Kartın sağ kenarına hizala
       });
     } else {
-      console.warn('Icon element not found');
+      console.warn('Icon or card element not found');
       setShowOptions(false);
     }
   };
@@ -138,7 +148,7 @@ const Category = ({ category, onRemove }) => {
 
   return (
     <div className="category-container">
-      <div className="category-card">
+      <div className="category-card" ref={cardRef}>
         <div className="category-header">
           {editingCategory ? (
             <input
@@ -179,7 +189,7 @@ const Category = ({ category, onRemove }) => {
                     <span
                       className="edit-task-icon"
                       onClick={() => handleIconClick(task.id)}
-                      ref={iconRef}
+                      ref={(el) => (iconRefs.current[task.id] = el)}  // Benzersiz ref
                     >
                       <i className="fas fa-pencil-alt"></i>
                     </span>
@@ -198,7 +208,7 @@ const Category = ({ category, onRemove }) => {
                   onSelectOption={handleOptionSelect}
                   onClose={handleCloseOptions}
                   lists={lists}
-                  task={{ ...task, categoryId: category.id }} // taskWithCategoryId doğru bir şekilde burada tanımlandı
+                  task={{ ...task, categoryId: category.id }}
                   listName={category.name}
                   position={optionsPosition}
                 />
