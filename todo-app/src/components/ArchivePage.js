@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchArchivedTasks, unarchiveTask, deleteArchivedTask } from '../redux/thunks/archiveThunks';
+import { useTranslation } from 'react-i18next'; // i18n çeviri kancasını ekleyelim
 import '../styles/ArchivePage.css';
 
 const ArchivePage = () => {
+  const { t } = useTranslation(); // useTranslation kancasını kullanarak t fonksiyonunu alıyoruz
   const dispatch = useDispatch();
   const archivedTasks = useSelector((state) => state.archivedTasks?.tasks || []);
   const status = useSelector((state) => state.archivedTasks?.status || 'idle');
@@ -15,9 +17,9 @@ const ArchivePage = () => {
 
   useEffect(() => {
     if (status === 'succeeded') {
-      console.log('Archived tasks loaded successfully');
+      console.log(t('Archived tasks loaded successfully'));
     }
-  }, [status]);
+  }, [status, t]); // t fonksiyonunu da bağımlılık olarak ekliyoruz
 
   const handleUnarchive = (taskId) => {
     dispatch(unarchiveTask({ taskId })).then(() => {
@@ -32,7 +34,7 @@ const ArchivePage = () => {
   };
 
   const groupedTasks = archivedTasks.reduce((groups, task) => {
-    const category = task.categoryName || 'Belirtilmemiş';
+    const category = task.categoryName || t('Belirtilmemiş'); // t fonksiyonunu kullanarak çeviri yapılır
     if (!groups[category]) {
       groups[category] = [];
     }
@@ -53,13 +55,13 @@ const ArchivePage = () => {
                   className="action-text restore-text"
                   onClick={() => handleUnarchive(task.id)}
                 >
-                  Arşivden Çıkart
+                  {t('Arşivden Çıkart')}
                 </span>
                 <span
                   className="action-text delete-text"
                   onClick={() => handleDelete(task.id)}
                 >
-                  Sil
+                  {t('Sil')}
                 </span>
               </div>
             </div>

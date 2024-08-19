@@ -16,14 +16,24 @@ const LanguageSelector = () => {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    console.log('Dil seçici açıldı');
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    console.log('Dil seçici kapandı');
   };
 
   const handleLanguageChange = (lng) => {
-    i18n.changeLanguage(lng);
+    i18n.changeLanguage(lng).then(() => {
+      window.location.reload(); // Sayfayı yeniden yükler
+    });
+    console.log(`Dil değiştiriliyor: ${lng}`);
+    i18n.changeLanguage(lng).then(() => {
+      console.log(`Dil başarıyla değiştirildi: ${i18n.language}`);
+    }).catch((err) => {
+      console.error('Dil değiştirilemedi:', err);
+    });
     handleClose();
   };
 

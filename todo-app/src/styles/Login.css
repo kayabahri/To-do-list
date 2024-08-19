@@ -14,41 +14,38 @@ body.login-page, html.login-page {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #f0f0f0;
 }
 
 .login-container {
-    position: absolute; 
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+    position: relative;
+    height: 100vh;
+    width: 100vw;
     background-image: url('../assets/login.png');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Sol tarafa hizalar */
+    justify-content: center;
+    padding-left: 10%; /* Yazıların ve butonun sol tarafta yer almasını sağlar */
 }
 
 .login-text {
-    position: absolute;
-    top: 40%; 
-    left: 25%; 
-    transform: translate(-50%, -50%);
     color: white;
-    text-align: left; 
-    border-radius: 10px;
-    max-width: 40%; 
-    z-index: 1;
-    font-size: 36px; /* İlk verdiğiniz boyut geri getirildi */
+    text-align: left; /* Yazıları sola hizalar */
+    font-size: 36px; /* Yazı boyutunu 36px olarak ayarlar */
     font-family: 'Open Sans', sans-serif;
-    animation: slideInFromLeft 1s ease-out;
+    z-index: 1;
+    max-width: 40%; /* Yazıların genişliğini sınırlandırır */
+    line-height: 1.4; /* Satır aralığını ayarlar */
+    word-wrap: break-word; /* Uzun kelimeleri alt satıra geçirir */
+    margin-bottom: 20px;
+    margin-top: -50px; /* Yazıyı yukarı taşır */
 }
 
 .login-button {
-    position: absolute;
-    top: 75%; 
-    left: 25%; 
-    transform: translate(-50%, -50%);
-    background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335); /* Gökkuşağı animasyonu için gerekli */
+    background: linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335);
     background-size: 400% 400%;
     color: white;
     border: none;
@@ -56,11 +53,13 @@ body.login-page, html.login-page {
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
-    z-index: 1;
-    animation: gradientBackground 3s ease infinite; /* Gökkuşağı animasyonu */
+    animation: gradientBackground 3s ease infinite;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
+    position: relative; /* Butonun yerini sabitler */
+    top: 20px; /* Butonun yerini sabit tutar */
 }
 
 .login-button i {
@@ -82,13 +81,4 @@ body.login-page, html.login-page {
 
 .login-button:hover {
     background-color: #357ae8;
-}
-
-@keyframes slideInFromLeft {
-    0% {
-        transform: translate(-150%, -50%);
-    }
-    100% {
-        transform: translate(-50%, -50%);
-    }
 }

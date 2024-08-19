@@ -1,21 +1,25 @@
-// src/i18n.js
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import HttpApi from 'i18next-http-backend';
+import translationEN from './locales/en/translation.json';
+import translationTR from './locales/tr/translation.json';
+
+const resources = {
+  en: {
+    translation: translationEN
+  },
+  tr: {
+    translation: translationTR
+  }
+};
 
 i18n
-  .use(HttpApi)
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
-    debug: true,
+    resources,
+    lng: 'tr', // Default language is Turkish
+    fallbackLng: 'tr', // Fallback to Turkish if translation is missing
     interpolation: {
-      escapeValue: false,
-    },
-    backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
+      escapeValue: false // React already escapes values
     }
   });
 

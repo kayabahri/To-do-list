@@ -43,7 +43,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-text">
-        Hoş geldiniz! ToDo uygulamasına giriş yaparak tüm yapılacaklarınızı kolayca yönetebilir, projelerinizi takip edebilir ve organize olabilirsiniz. Hemen giriş yapın ve üretkenliğinizi artırın!
+        Hoşgeldiniz! ToDo uygulamasına giriş yaparak tüm yapılacaklarınızı kolayca yönetebilir, projelerinizi takip edebilir ve organize olabilirsiniz. Hemen giriş yapın ve üretkenliğinizi artırın!
       </div>
       <button className="login-button" onClick={handleGoogleLogin}>
         <i className="fab fa-google"></i>

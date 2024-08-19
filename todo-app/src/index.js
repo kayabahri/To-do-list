@@ -6,6 +6,7 @@ import App from './App';
 import { store, persistor } from './redux/store';
 import './styles/index.css';
 import { ThemeProvider } from './contexts/ThemeContext';
+import './i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

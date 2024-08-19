@@ -52,7 +52,7 @@ const InfoPage = ({ onProceed }) => {
             <div className="cards">
               <div className="card">
                 <h3>Panolar</h3>
-                <p>Trello panoları görevleri düzenli tutmanızı ve işleri ilerletmenizi sağlar.</p>
+                <p>ToDo panoları görevleri düzenli tutmanızı ve işleri ilerletmenizi sağlar.</p>
               </div>
               <div className="card">
                 <h3>Listeler</h3>
@@ -91,7 +91,7 @@ const InfoPage = ({ onProceed }) => {
               <button className="cta-button">Ücretsiz Deneyin</button>
             </div>
             <div className="pricing-card">
-              <h3>Enterprise</h3>
+              <h3>Kurumsal</h3>
               <div className="price">$17.50</div>
               <p>Takımların çalışmalarını daha fazla güvenlik ve kontrol ile bir araya getirmek isteyen organizasyonlar için.</p>
               <button className="cta-button">Satış Birimiyle İletişime Geçin</button>

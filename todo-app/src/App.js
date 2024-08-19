@@ -17,19 +17,25 @@ import { ThemeContext } from './contexts/ThemeContext';
 import './styles/App.css';
 import { store, persistor } from './redux/store';
 import { auth } from './firebaseConfig';
+import './i18n'; // i18n initialization
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showInfoPage, setShowInfoPage] = useState(true);
+  const [showInfoPage, setShowInfoPage] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-      if (currentUser) {
+
+      // Kullanıcının ilk kez oturum açıp açmadığını kontrol et
+      const hasSeenInfoPage = localStorage.getItem('hasSeenInfoPage');
+
+      if (currentUser && !hasSeenInfoPage) {
         setShowInfoPage(true);
+        localStorage.setItem('hasSeenInfoPage', 'true');
       }
     });
     return () => unsubscribe();
@@ -39,6 +45,7 @@ const App = () => {
     try {
       await signOut(auth);
       console.log('User signed out');
+      localStorage.removeItem('hasSeenInfoPage'); // Çıkış yapıldığında sıfırla
     } catch (error) {
       console.error('Error signing out', error);
     }
