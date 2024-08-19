@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import Datepicker from './Datepicker';
 import MoveTaskForm from './MoveTaskForm';
-import TaskCard from './TaskCard';
 import { archiveTask } from '../redux/thunks/archiveThunks';
 import '../styles/TaskOptions.css';
 
@@ -11,7 +10,6 @@ const TaskOptions = ({ onSelectOption, onClose, lists, task, listName, position 
   const { t } = useTranslation();
   const [showDatepicker, setShowDatepicker] = useState(false);
   const [showMoveForm, setShowMoveForm] = useState(false);
-  const [showTaskCard, setShowTaskCard] = useState(false);
   const [selectedDate, setSelectedDate] = useState({ start: null, end: null });
   const optionsRef = useRef(null);
 
@@ -63,14 +61,6 @@ const TaskOptions = ({ onSelectOption, onClose, lists, task, listName, position 
     setShowMoveForm(true);
   };
 
-  const openTaskCard = () => {
-    setShowTaskCard(true);
-  };
-
-  const closeTaskCard = () => {
-    setShowTaskCard(false);
-  };
-
   const handleArchive = () => {
     if (!task.categoryId || !task.id) {
       console.error('Task data is incomplete:', task);
@@ -89,9 +79,7 @@ const TaskOptions = ({ onSelectOption, onClose, lists, task, listName, position 
   return (
     <div className="task-options-overlay" onClick={onClose}>
       <div className="task-options" ref={optionsRef} onClick={(e) => e.stopPropagation()}>
-        {showTaskCard ? (
-          <TaskCard task={task} listName={listName} onClose={closeTaskCard} />
-        ) : showDatepicker ? (
+        {showDatepicker ? (
           <Datepicker
             selectedDate={selectedDate}
             onDateChange={handleDateChange}
@@ -106,9 +94,6 @@ const TaskOptions = ({ onSelectOption, onClose, lists, task, listName, position 
           />
         ) : (
           <>
-            <div className="task-option" onClick={openTaskCard}>
-              <i className="fas fa-external-link-alt"></i> {t('Open Card')}
-            </div>
             <div className="task-option" onClick={() => onSelectOption('edit')}>
               <i className="fas fa-edit"></i> {t('Edit')}
             </div>

@@ -1,34 +1,38 @@
 .dropdown {
-    cursor: pointer;
-    padding: 10px 0;
-    border-bottom: 1px solid #444;
-  }
-  
-  .dropdown-title {
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color 0.3s;
-  }
-  
-  .dropdown-title:hover {
-    background-color: #555;
-  }
-  
-  .dropdown-options {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .dropdown-options li {
-    padding: 10px 20px;
-    border-bottom: 1px solid #444;
-    transition: background-color 0.3s;
-  }
-  
-  .dropdown-options li:hover {
-    background-color: #666;
-  }
-  
+  cursor: pointer;
+  padding: 10px 0;
+  border-bottom: 1px solid #444;
+}
+
+.dropdown-title {
+  padding: 10px 20px;
+  padding-left: 0px; /* "Theme" seçeneğini biraz sola kaydırmak için */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.dropdown-title:hover {
+  background-color: #555;
+}
+
+.dropdown-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-options li {
+  padding: 10px 20px;
+  border-bottom: 1px solid #444;
+  transition: background-color 0.3s;
+}
+
+.dropdown-options li:last-child {
+  border-bottom: none; /* Son öğedeki ikinci çizgiyi kaldırıyoruz */
+}
+
+.dropdown-options li:hover {
+  background-color: #666;
+}
