@@ -1,17 +1,20 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import '../styles/Footer.css';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-links">
-          <a href="#about">ToDo Hakkında</a> |
-          <a href="#jobs">İş İlanları</a> |
-          <a href="#apps">Uygulamalar</a> |
-          <a href="#contact">Bize Ulaşın</a>
+          <a href="#about">{t('About ToDo')}</a> |
+          <a href="#jobs">{t('Job Postings')}</a> |
+          <a href="#apps">{t('Applications')}</a> |
+          <a href="#contact">{t('Contact Us')}</a>
         </div>
         <div className="social-icons">
           <a href="https://www.instagram.com/kayaa.bahri/" target="_blank" rel="noopener noreferrer">
@@ -31,7 +34,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="footer-bottom">
-          Telif Hakkı © 2024 ToDo
+          {t('Copyright © 2024 ToDo')}
         </div>
       </div>
     </footer>

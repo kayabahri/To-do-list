@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import Datepicker from './Datepicker';
 import MoveTaskForm from './MoveTaskForm';
@@ -7,6 +8,7 @@ import { archiveTask } from '../redux/thunks/archiveThunks';
 import '../styles/TaskOptions.css';
 
 const TaskOptions = ({ onSelectOption, onClose, lists, task, listName, position }) => {
+  const { t } = useTranslation();
   const [showDatepicker, setShowDatepicker] = useState(false);
   const [showMoveForm, setShowMoveForm] = useState(false);
   const [showTaskCard, setShowTaskCard] = useState(false);
@@ -105,22 +107,22 @@ const TaskOptions = ({ onSelectOption, onClose, lists, task, listName, position 
         ) : (
           <>
             <div className="task-option" onClick={openTaskCard}>
-              <i className="fas fa-external-link-alt"></i> Kartı Aç
+              <i className="fas fa-external-link-alt"></i> {t('Open Card')}
             </div>
             <div className="task-option" onClick={() => onSelectOption('edit')}>
-              <i className="fas fa-edit"></i> Düzenle
+              <i className="fas fa-edit"></i> {t('Edit')}
             </div>
             <div className="task-option" onClick={openDatePicker}>
-              <i className="fas fa-calendar-alt"></i> Tarihleri düzenle
+              <i className="fas fa-calendar-alt"></i> {t('Edit Date')}
             </div>
             <div className="task-option" onClick={openMoveForm}>
-              <i className="fas fa-arrows-alt"></i> Taşı
+              <i className="fas fa-arrows-alt"></i> {t('Move')}
             </div>
             <div className="task-option" onClick={() => onSelectOption('delete')}>
-              <i className="fas fa-trash-alt"></i> Sil
+              <i className="fas fa-trash-alt"></i> {t('Delete')}
             </div>
             <div className="task-option" onClick={handleArchive}>
-              <i className="fas fa-archive"></i> Arşiv
+              <i className="fas fa-archive"></i> {t('Archive')}
             </div>
           </>
         )}

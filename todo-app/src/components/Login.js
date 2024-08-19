@@ -4,9 +4,11 @@ import { signInWithPopup } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleGoogleLogin = async () => {
     try {
@@ -25,7 +27,7 @@ const Login = () => {
       }
 
       console.log('User signed in');
-      navigate('/'); // InfoPage'e yönlendir
+      navigate('/'); // Navigate to InfoPage
     } catch (error) {
       console.error('Error signing in with Google', error);
     }
@@ -43,11 +45,11 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-text">
-        Hoşgeldiniz! ToDo uygulamasına giriş yaparak tüm yapılacaklarınızı kolayca yönetebilir, projelerinizi takip edebilir ve organize olabilirsiniz. Hemen giriş yapın ve üretkenliğinizi artırın!
+        {t("Welcome to Your Application!Welcome back! By logging in to the ToDo application, you can easily manage all your things to do, track your projects and get organized. Log in now and increase your productivity!")}
       </div>
       <button className="login-button" onClick={handleGoogleLogin}>
         <i className="fab fa-google"></i>
-        Google ile Giriş Yap
+        {t("Log in with Google")}
       </button>
     </div>
   );

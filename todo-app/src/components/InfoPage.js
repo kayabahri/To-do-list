@@ -4,8 +4,10 @@ import '../styles/InfoPage.css';
 import Footer from './Footer';
 import infoImage from '../assets/info.png';
 import todosImage from '../assets/todoss.png';
+import { useTranslation } from 'react-i18next';
 
 const InfoPage = ({ onProceed }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleProceed = () => {
@@ -36,65 +38,65 @@ const InfoPage = ({ onProceed }) => {
       <div className="info-page">
         <section className="section section-1">
           <header className="info-header">
-            <h1>Uygulamanıza Hoş Geldiniz!</h1>
-            <p>Takım arkadaşlarınızla birlikte tüm görevlerinizi organize edin ve projelerinizi yönetin.</p>
-            <button className="cta-button" onClick={handleProceed}>Panonuza Git</button>
+            <h1>{t("Welcome to Your Application!")}</h1>
+            <p>{t("Organize all your opinions together with your teammates and manage your projects.")}</p>
+            <button className="cta-button" onClick={handleProceed}>{t("Go To Your Dashboard")}</button>
           </header>
           <div className="info-illustration">
-            <img src={infoImage} alt="Uygulama açıklama görseli" />
+            <img src={infoImage} alt="Application overview image" />
           </div>
         </section>
 
         <section className="section section-2">
           <div className="section-content">
-            <h2>Üretkenlik merkezi</h2>
-            <p>Kolay, esnek ve güçlü. Herkesin ne yaptığını ve neler yapılması gerektiğini görmek için panoları, listeleri ve kartları kullanmanız yeterli.</p>
+            <h2>{t("Productivity center")}</h2>
+            <p>{t("Easy, flexible and strong. Just use the boards, lists, and cards to see what everyone is doing and what needs to be done.")}</p>
             <div className="cards">
               <div className="card">
-                <h3>Panolar</h3>
-                <p>ToDo panoları görevleri düzenli tutmanızı ve işleri ilerletmenizi sağlar.</p>
+                <h3>{t("Boards")}</h3>
+                <p>{t("ToDo dashboards allow you to keep tasks organized and keep things moving forward.")}</p>
               </div>
               <div className="card">
-                <h3>Listeler</h3>
-                <p>Görevlerinizi farklı aşamalara ayırmak için listeleri kullanabilirsiniz.</p>
+                <h3>{t("Lists")}</h3>
+                <p>{t("You can use lists to divide your tasks into different stages.")}</p>
               </div>
               <div className="card">
-                <h3>Kartlar</h3>
-                <p>Her görevin detaylarını tutmak için kartlar kullanabilirsiniz.</p>
+                <h3>{t("Cards")}</h3>
+                <p>{t("You can use cards to keep the details of each task.")}</p>
               </div>
             </div>
           </div>
           <div className="todos-illustration">
-            <img src={todosImage} alt="ToDo uygulama örneği" />
+            <img src={todosImage} alt="ToDo app example" />
           </div>
         </section>
 
         <section className="section section-3">
-          <h2>Fiyatlandırma Planları</h2>
+          <h2>{t("Pricing Plans")}</h2>
           <div className="pricing-table">
             <div className="pricing-card">
-              <h3>Ücretsiz</h3>
+              <h3>{t("Free")}</h3>
               <div className="price">$0</div>
-              <p>Herhangi bir projeyi organize etmek isteyen kişiler veya takımlar için.</p>
-              <button className="cta-button">Kullanmaya Başla</button>
+              <p>{t("For people or teams who want to organize any project.")}</p>
+              <button className="cta-button">{t("Start Using")}</button>
             </div>
             <div className="pricing-card">
-              <h3>Standart</h3>
+              <h3>{t("Standard")}</h3>
               <div className="price">$5</div>
-              <p>İşleri yönetmesi ve iş birliğini ölçeklendirmesi gereken küçük takımlar için.</p>
-              <button className="cta-button">Hemen Kaydolun</button>
+              <p>{t("For small teams that need to manage jobs and scale up collaboration.")}</p>
+              <button className="cta-button">{t("Register Now")}</button>
             </div>
             <div className="pricing-card premium">
-              <h3>Premium</h3>
+              <h3>{t("Premium")}</h3>
               <div className="price">$10</div>
-              <p>Çok sayıda projeyi panolar, zaman çizelgeleri, takvimler gibi çeşitli yollarla takip etmesi ve görselleştirmesi gereken takımlar için.</p>
-              <button className="cta-button">Ücretsiz Deneyin</button>
+              <p>{t("For teams that need to track and visualize a large number of projects in various ways, such as dashboards, timelines, calendars.")}</p>
+              <button className="cta-button">{t("Try It for Free")}</button>
             </div>
             <div className="pricing-card">
-              <h3>Kurumsal</h3>
+              <h3>{t("Enterprise")}</h3>
               <div className="price">$17.50</div>
-              <p>Takımların çalışmalarını daha fazla güvenlik ve kontrol ile bir araya getirmek isteyen organizasyonlar için.</p>
-              <button className="cta-button">Satış Birimiyle İletişime Geçin</button>
+              <p>{t("For organizations that want to Decouple the work of teams with more security and control.")}</p>
+              <button className="cta-button">{t("Contact the Sales Department")}</button>
             </div>
           </div>
         </section>

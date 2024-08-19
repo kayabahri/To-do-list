@@ -5,13 +5,15 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './SideBar';
 import { ThemeContext } from '../contexts/ThemeContext';
 import LanguageSelector from './LanguageSelector';
+import { useTranslation } from 'react-i18next';
 import '../styles/Header.css';
 
-const Header = ({ hideBars }) => {
+const Header = ({ hideBars, onLanguageChange }) => {
   const [showSideBar, setShowSideBar] = useState(false);
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const sidebarRef = useRef(null);
+  const { t } = useTranslation();
 
   const handleToggleSideBar = () => {
     setShowSideBar(!showSideBar);
@@ -34,12 +36,11 @@ const Header = ({ hideBars }) => {
         <div className={`left-icon ${showSideBar ? 'sidebar-open' : ''}`} onClick={handleToggleSideBar}>
           <FontAwesomeIcon icon={faBars} />
         </div>
-        <h1 className="title roboto-bold" onClick={handleNavigateHome}>ToDo</h1>
+        <h1 className="title roboto-bold" onClick={handleNavigateHome}>{t('ToDo')}</h1>
         <div className="right-icon">
-          <LanguageSelector />
+          <LanguageSelector onLanguageChange={onLanguageChange} />
         </div>
       </div>
-      {/* MovingBar kaldırıldı */}
       {!hideBars && <SideBar show={showSideBar} onMouseLeave={handleMouseLeave} ref={sidebarRef} />}
     </>
   );

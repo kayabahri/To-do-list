@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/MoveTaskForm.css';
+import { useTranslation } from 'react-i18next';
 
 const MoveTaskForm = ({ lists, onMove, onCancel, position }) => {
   const [selectedList, setSelectedList] = useState('');
   const [selectedPosition, setSelectedPosition] = useState(1);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const formElement = document.querySelector('.move-task-form-container');
     if (formElement && position) {
       const rect = formElement.getBoundingClientRect();
 
-      // Task ile aynı hizada olacak şekilde formu konumlandırma
-      const adjustedTop = position.top - rect.height / 2; // Task'ın ortası ile hizalama
-      const adjustedLeft = position.left + 10; // Task'ın hemen sağına konumlandırma
+      const adjustedTop = position.top - rect.height / 2;
+      const adjustedLeft = position.left + 10;
 
       formElement.style.top = `${adjustedTop}px`;
       formElement.style.left = `${adjustedLeft}px`;
@@ -31,21 +32,21 @@ const MoveTaskForm = ({ lists, onMove, onCancel, position }) => {
     <div className="move-task-form-overlay">
       <div className="move-task-form-container" style={{ position: 'absolute' }}>
         <div className="move-task-form-header">
-          <h2>Kartı Taşı</h2>
+          <h2>{t("Move Card")}</h2>
           <button onClick={onCancel} className="close-button">×</button>
         </div>
         <div className="move-task-form-body">
           <label>
-            Liste
+            {t("List")}
             <select value={selectedList} onChange={(e) => setSelectedList(e.target.value)}>
-              <option value="" disabled>Lütfen bir liste seçin</option>
+              <option value="" disabled>{t("Please select a list")}</option>
               {lists.map((list) => (
                 <option key={list.id} value={list.id}>{list.name}</option>
               ))}
             </select>
           </label>
           <label>
-            Konum
+            {t("Location")}
             <input
               type="number"
               value={selectedPosition}
@@ -56,7 +57,7 @@ const MoveTaskForm = ({ lists, onMove, onCancel, position }) => {
           </label>
         </div>
         <div className="move-task-form-footer">
-          <button onClick={handleMove} className="move-button">Taşı</button>
+          <button onClick={handleMove} className="move-button">{t("Move")}</button>
         </div>
       </div>
     </div>

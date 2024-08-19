@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const ShareAccessForm = () => {
+  const { t } = useTranslation();
   const [sharedKey, setSharedKey] = useState('');
   const navigate = useNavigate();
 
@@ -12,7 +14,7 @@ const ShareAccessForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="sharedKey">Paylaşım Anahtarı:</label>
+      <label htmlFor="sharedKey">{t('Enter the list title...')}</label>
       <input
         type="text"
         id="sharedKey"
@@ -20,7 +22,7 @@ const ShareAccessForm = () => {
         onChange={(e) => setSharedKey(e.target.value)}
         required
       />
-      <button type="submit">Görüntüle</button>
+      <button type="submit">{t('Go To Your Dashboard')}</button>
     </form>
   );
 };

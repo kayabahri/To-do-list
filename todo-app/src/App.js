@@ -12,8 +12,8 @@ import SideBar from './components/SideBar';
 import SharedWorkspace from './redux/SharedWorkspace';
 import ShareAccessForm from './components/ShareAccessForm';
 import ArchivePage from './components/ArchivePage';
-import InfoPage from './components/InfoPage'; 
-import { ThemeContext } from './contexts/ThemeContext';
+import InfoPage from './components/InfoPage';
+import { ThemeContext, ThemeProvider } from './contexts/ThemeContext';
 import './styles/App.css';
 import { store, persistor } from './redux/store';
 import { auth } from './firebaseConfig';
@@ -30,14 +30,11 @@ const App = () => {
       setUser(currentUser);
       setLoading(false);
 
-      // Kullanıcının ilk kez oturum açıp açmadığını kontrol et
-      const hasSeenInfoPage = localStorage.getItem('hasSeenInfoPage');
-
-      if (currentUser && !hasSeenInfoPage) {
+      if (currentUser) {
         setShowInfoPage(true);
-        localStorage.setItem('hasSeenInfoPage', 'true');
       }
     });
+
     return () => unsubscribe();
   }, []);
 
@@ -45,10 +42,13 @@ const App = () => {
     try {
       await signOut(auth);
       console.log('User signed out');
-      localStorage.removeItem('hasSeenInfoPage'); // Çıkış yapıldığında sıfırla
     } catch (error) {
       console.error('Error signing out', error);
     }
+  };
+
+  const handleProceedFromInfoPage = () => {
+    setShowInfoPage(false);
   };
 
   if (loading) {
@@ -56,43 +56,45 @@ const App = () => {
   }
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Suspense fallback={null}>
-          <Router>
-            {showInfoPage ? (
-              <InfoPage onProceed={() => setShowInfoPage(false)} />
-            ) : (
-              <div className={`App ${user ? theme : ''}`}>
-                {user && <Header />}
-                {user && <SideBar handleLogout={handleLogout} />}
-                <main className={user ? '' : 'login-page'}>
-                  <Routes>
-                    {user ? (
-                      <>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/settings" element={<Settings />} />
-                        <Route path="/shared/:sharedKey" element={<SharedWorkspace />} />
-                        <Route path="/share-access" element={<ShareAccessForm />} />
-                        <Route path="/archive" element={<ArchivePage />} />
-                        <Route path="*" element={<Home />} />
-                      </>
-                    ) : (
-                      <>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/share-access" element={<ShareAccessForm />} />
-                        <Route path="*" element={<Navigate to="/login" />} />
-                      </>
-                    )}
-                  </Routes>
-                </main>
-              </div>
-            )}
-          </Router>
-        </Suspense>
-      </PersistGate>
-    </Provider>
+    <ThemeProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Suspense fallback={null}>
+            <Router>
+              {showInfoPage ? (
+                <InfoPage onProceed={handleProceedFromInfoPage} />
+              ) : (
+                <div className={`App ${user ? theme : ''}`}>
+                  {user && <Header />}
+                  {user && <SideBar handleLogout={handleLogout} />}
+                  <main className={user ? '' : 'login-page'}>
+                    <Routes>
+                      {user ? (
+                        <>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/about" element={<About />} />
+                          <Route path="/settings" element={<Settings />} />
+                          <Route path="/shared/:sharedKey" element={<SharedWorkspace />} />
+                          <Route path="/share-access" element={<ShareAccessForm />} />
+                          <Route path="/archive" element={<ArchivePage />} />
+                          <Route path="*" element={<Home />} />
+                        </>
+                      ) : (
+                        <>
+                          <Route path="/login" element={<Login />} />
+                          <Route path="/share-access" element={<ShareAccessForm />} />
+                          <Route path="*" element={<Navigate to="/login" />} />
+                        </>
+                      )}
+                    </Routes>
+                  </main>
+                </div>
+              )}
+            </Router>
+          </Suspense>
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>
   );
 };
 

@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCategories, addCategory, removeCategory, updateCategory } from '../redux/thunks/categoryThunks';
 import Category from './Category';
+import { useTranslation } from 'react-i18next';
 import '../styles/CategoryList.css';
 
 const CategoryList = () => {
+  const { t } = useTranslation();
   const categories = useSelector((state) => state.categories.categories);
   const dispatch = useDispatch();
   const [showInput, setShowInput] = useState(false);
@@ -85,16 +87,16 @@ const CategoryList = () => {
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Liste başlığı girin..."
+              placeholder={t('Enter the list title...')}
             />
             <div className="add-category-actions">
-              <button onClick={handleAddCategory}>Listeye Ekle</button>
+              <button onClick={handleAddCategory}>{t('Add to list')}</button>
               <button onClick={handleCancel} className="cancel-button">×</button>
             </div>
           </div>
         ) : (
           <div className="add-category-link" onClick={() => setShowInput(true)}>
-            + Liste ekle
+            {t('+ List add')}
           </div>
         )}
       </div>

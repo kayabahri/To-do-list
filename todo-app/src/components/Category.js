@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTask, removeTask, updateTask, updateCategory, setTaskDates, moveTask } from '../redux/thunks/categoryThunks';
 import { archiveTask } from '../redux/thunks/archiveThunks';
 import TaskOptions from './TaskOptions';
+import { useTranslation } from 'react-i18next';
 import '../styles/Category.css';
 
 const Category = ({ category, onRemove }) => {
+  const { t } = useTranslation();
   const [task, setTask] = useState('');
   const [showInput, setShowInput] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -17,7 +19,7 @@ const Category = ({ category, onRemove }) => {
   const [categoryName, setCategoryName] = useState(category.name);
   const dispatch = useDispatch();
   const iconRefs = useRef({});
-  const cardRef = useRef(null); // Task'ın bulunduğu box (kart) referansı
+  const cardRef = useRef(null);
 
   const lists = useSelector((state) => state.categories.categories);
 
@@ -52,7 +54,7 @@ const Category = ({ category, onRemove }) => {
       const cardRect = cardRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       const taskMiddle = iconRect.top + (iconRect.height / 2);
-      const optionsHeight = 200; // TaskOptions bileşeninin yaklaşık yüksekliği, gerektiğinde ayarlanabilir
+      const optionsHeight = 200;
       const adjustedTop = Math.max(
         Math.min(taskMiddle - (optionsHeight / 2), windowHeight - optionsHeight - 10),
         10
@@ -60,7 +62,7 @@ const Category = ({ category, onRemove }) => {
 
       setOptionsPosition({
         top: adjustedTop + window.scrollY,
-        left: cardRect.right + window.scrollX, // Kartın sağ kenarına hizala
+        left: cardRect.right + window.scrollX,
       });
     } else {
       console.warn('Icon or card element not found');
@@ -165,7 +167,7 @@ const Category = ({ category, onRemove }) => {
           )}
           {onRemove && (
             <button className="remove-category" onClick={onRemove}>
-              Kaldır
+              {t('Remove')}
             </button>
           )}
         </div>
@@ -199,7 +201,7 @@ const Category = ({ category, onRemove }) => {
               <span className="task-dates">
                 {task.startDate && task.endDate && (
                   <>
-                    <i className="fas fa-clock"></i> {new Date(task.startDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })} - {new Date(task.endDate).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short' })}
+                    <i className="fas fa-clock"></i> {new Date(task.startDate).toLocaleDateString('en-EN', { day: '2-digit', month: 'short' })} - {new Date(task.endDate).toLocaleDateString('en-EN', { day: '2-digit', month: 'short' })}
                   </>
                 )}
               </span>
@@ -224,13 +226,13 @@ const Category = ({ category, onRemove }) => {
               onChange={(e) => setTask(e.target.value)}
               onBlur={handleTaskBlur}
               onKeyPress={handleTaskKeyPress}
-              placeholder="Yeni bir görev ekle"
+              placeholder={t('Add a new task')}
               className="task-input-field"
             />
           </div>
         ) : (
           <div className="add-task-link" onClick={() => setShowInput(true)}>
-            + Kart ekle
+            {t('+ Card add')}
           </div>
         )}
       </div>

@@ -7,8 +7,8 @@ const About = () => {
 
   return (
     <div className="about-page">
-      <h1>{t('Hakkında')}</h1>
-      <p>{t('Bu uygulama, görevlerinizi ve planlarınızı yönetmenize yardımcı olmak için tasarlanmıştır.')}</p>
+      <h1>{t('About')}</h1>
+      <p>{t('This application is designed to help you manage your tasks and plans.')}</p>
     </div>
   );
 };

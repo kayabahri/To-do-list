@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useTranslation } from 'react-i18next';
 import '../styles/Datepicker.css';
 
 const Datepicker = ({ selectedDate, onDateChange, onSave, onCancel }) => {
+  const { t } = useTranslation();
   const [startDate, setStartDate] = useState(selectedDate.start ? new Date(selectedDate.start) : null);
   const [endDate, setEndDate] = useState(selectedDate.end ? new Date(selectedDate.end) : null);
   const [selectingStartDate, setSelectingStartDate] = useState(true);
@@ -21,7 +23,7 @@ const Datepicker = ({ selectedDate, onDateChange, onSave, onCancel }) => {
   const handleEndDateChange = (date) => {
     console.log('End Date Selected:', date);
     if (startDate && date < startDate) {
-      alert('Bitiş tarihi başlangıç tarihinden önce olamaz!');
+      alert(t('End date cannot be before the start date!'));
     } else {
       setEndDate(date);
       onDateChange({ start: startDate ? startDate.toISOString() : null, end: date.toISOString() });
@@ -41,37 +43,37 @@ const Datepicker = ({ selectedDate, onDateChange, onSave, onCancel }) => {
 
   return (
     <div className="datepicker-container">
-      <h2>Tarihler</h2>
+      <h2>{t('Dates')}</h2>
       <div className="datepicker-inputs">
         <label>
-          Başlangıç Tarihi
+          {t('Start Date')}
           <DatePicker
             selected={startDate}
             onChange={handleStartDateChange}
             dateFormat="dd/MM/yyyy"
-            placeholderText="Başlangıç Tarihi Seç"
+            placeholderText={t('Select Start Date')}
             className="datepicker-input"
-            shouldCloseOnSelect={true} // Tarih seçildiğinde takvimi kapatır
+            shouldCloseOnSelect={true} // Close the calendar when a date is selected
           />
         </label>
         {!selectingStartDate && (
           <label>
-            Bitiş Tarihi
+            {t('End Date')}
             <DatePicker
               selected={endDate}
               onChange={handleEndDateChange}
               dateFormat="dd/MM/yyyy"
-              placeholderText="Bitiş Tarihi Seç"
+              placeholderText={t('Select End Date')}
               className="datepicker-input"
               minDate={startDate}
-              shouldCloseOnSelect={true} // Tarih seçildiğinde takvimi kapatır
+              shouldCloseOnSelect={true} // Close the calendar when a date is selected
             />
           </label>
         )}
       </div>
       <div className="datepicker-buttons">
-        <button className="save-button" onClick={handleSave}>Kaydet</button>
-        <button className="cancel-button" onClick={handleCancel}>Kapat</button>
+        <button className="save-button" onClick={handleSave}>{t('Save')}</button>
+        <button className="cancel-button" onClick={handleCancel}>{t('Close')}</button>
       </div>
     </div>
   );
