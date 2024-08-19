@@ -11,6 +11,7 @@ const Dropdown = ({ title, options, onSelect }) => {
   };
 
   const handleSelectOption = (value) => {
+    localStorage.setItem('theme', value);
     onSelect(value);
     setShowOptions(false);
   };

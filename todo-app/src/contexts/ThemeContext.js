@@ -6,7 +6,7 @@ const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState('light');
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    setTheme(localStorage.getItem("theme"));
   };
 
   return (

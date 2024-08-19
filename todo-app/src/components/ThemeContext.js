@@ -6,7 +6,8 @@ export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState('light');
 
   const changeTheme = (newTheme) => {
-    setTheme(newTheme);
+    console.log("xxx",newTheme)
+    setTheme(newTheme); // Temayı değiştiren fonksiyon
   };
 
   return (

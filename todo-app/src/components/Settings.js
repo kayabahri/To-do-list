@@ -7,8 +7,8 @@ const Settings = () => {
 
   return (
     <div className="settings-page">
-      <h1>{t('Ayarlar')}</h1>
-      <p>{t('Construction is ongoing...')}</p>
+      <h1>{t('Settings')}</h1>
+      <p>{t('Construction is on going...')}</p>
     </div>
   );
 };
